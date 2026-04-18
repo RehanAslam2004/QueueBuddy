@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+/* ─── Design Tokens (Permanent Light Theme) ─────────────────── */
+:root {
+  --surface: #faf9fa;
+  --on-surface: #1a1c1d;
+  --surface-container: #efedee;
+  --surface-container-low: #f4f3f4;
+  --surface-container-high: #e9e8e8;
+  --surface-container-highest: #e3e2e3;
+  --surface-container-lowest: #ffffff;
+  --surface-dim: #dbdadb;
+  --surface-variant: #e3e2e3;
+  --on-surface-variant: #404a39;
+  
+  --primary: #1e6d00;
+  --on-primary: #ffffff;
+  --primary-container: #5dbe3c;
+  --on-primary-container: #114800;
+  --primary-fixed: #95fb70;
+  --on-primary-fixed: #042100;
+  
+  --secondary: #835425;
+  --on-secondary: #ffffff;
+  --secondary-container: #ffbf87;
+  
+  --tertiary: #0c6780;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #6bb2ce;
+  
+  --outline: #707a68;
+  --outline-variant: #bfcab5;
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+}
+
+@theme {
+  --color-surface: var(--surface);
+  --color-on-surface: var(--on-surface);
+  --color-surface-container: var(--surface-container);
+  --color-surface-container-low: var(--surface-container-low);
+  --color-surface-container-high: var(--surface-container-high);
+  --color-surface-container-highest: var(--surface-container-highest);
+  --color-surface-container-lowest: var(--surface-container-lowest);
+  --color-surface-dim: var(--surface-dim);
+  --color-surface-variant: var(--surface-variant);
+  --color-on-surface-variant: var(--on-surface-variant);
+  
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-primary-container: var(--primary-container);
+  --color-on-primary-container: var(--on-primary-container);
+  --color-primary-fixed: var(--primary-fixed);
+  --color-on-primary-fixed: var(--on-primary-fixed);
+
+  --color-secondary: var(--secondary);
+  --color-on-secondary: var(--on-secondary);
+  --color-secondary-container: var(--secondary-container);
+
+  --color-tertiary: var(--tertiary);
+  --color-on-tertiary: var(--on-tertiary);
+  --color-tertiary-container: var(--tertiary-container);
+
+  --color-outline: var(--outline);
+  --color-outline-variant: var(--outline-variant);
+  --color-error: var(--error);
+  --color-on-error: var(--on-error);
+
+  --font-headline: "Space Grotesk", sans-serif;
+  --font-body: "Work Sans", sans-serif;
+  --font-label: "Work Sans", sans-serif;
+}
+
+/* ─── Base Styles ────────────────────────────────────────────── */
+@layer base {
+  body {
+    @apply bg-surface text-on-surface min-h-screen flex flex-col font-body;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-headline;
+  }
+  :focus-visible {
+    @apply outline-none ring-4 ring-primary/30;
+  }
+}
+
+/* ─── Simplified Backgrounds (Permanent Day) ──────────────────── */
+body {
+  background-color: var(--surface);
+}
+
+/* ─── Minecraft Pixel Animations ─────────────────────────────── */
+@keyframes voxel-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes slide-up-in {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes count-up-flash {
+  0%   { color: var(--primary); transform: scale(1); }
+  50%  { color: var(--primary-fixed); transform: scale(1.15); }
+  100% { color: var(--primary); transform: scale(1); }
+}
+
+.animate-float       { animation: voxel-float 3s ease-in-out infinite; }
+.animate-slide-up    { animation: slide-up-in 0.35s cubic-bezier(0.34,1.56,0.64,1) both; }
+.animate-count-flash { animation: count-up-flash 0.6s ease-out; }
+
+.voxel-grid {
+  background-image: 
+    linear-gradient(to right, var(--outline-variant) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--outline-variant) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.scanlines {
+  position: relative;
+  overflow: hidden;
+}
+.scanlines::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.05) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+  z-index: 2;
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--surface-container);
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--outline-variant);
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--outline);
+}

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Revive World - QueueBuddy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400..700&amp;family=Work+Sans:wght@400..700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#faf9fa",
+                        "inverse-primary": "#7add57",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#efedee",
+                        "primary-container": "#5dbe3c",
+                        "background": "#faf9fa",
+                        "surface-container-low": "#f4f3f4",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#683d0f",
+                        "tertiary-fixed-dim": "#89d0ed",
+                        "on-background": "#1a1c1d",
+                        "on-tertiary-container": "#004356",
+                        "on-primary-container": "#114800",
+                        "secondary-container": "#ffbf87",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#0c6780",
+                        "surface-bright": "#faf9fa",
+                        "surface-variant": "#e3e2e3",
+                        "on-tertiary-fixed": "#001f29",
+                        "secondary": "#835425",
+                        "primary": "#1e6d00",
+                        "secondary-fixed-dim": "#f9ba82",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#7a4b1e",
+                        "primary-fixed": "#95fb70",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#2e1500",
+                        "surface-container-highest": "#e3e2e3",
+                        "on-primary-fixed-variant": "#145200",
+                        "on-tertiary-fixed-variant": "#004d62",
+                        "surface-container-high": "#e9e8e9",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#ffdcc1",
+                        "surface-dim": "#dbdadb",
+                        "primary-fixed-dim": "#7add57",
+                        "on-surface-variant": "#404a39",
+                        "surface-tint": "#1e6d00",
+                        "outline-variant": "#bfcab5",
+                        "inverse-on-surface": "#f2f0f1",
+                        "on-primary-fixed": "#042100",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#1a1c1d",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2f3031",
+                        "tertiary-fixed": "#baeaff",
+                        "tertiary-container": "#6bb2ce",
+                        "outline": "#707a68"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk", "sans-serif"],
+                        "body": ["Work Sans", "sans-serif"],
+                        "label": ["Work Sans", "sans-serif"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Work Sans', sans-serif; background-color: #faf9fa; color: #1a1c1d; }
+        h1, h2, h3, h4, h5, h6, .font-headline { font-family: 'Space Grotesk', sans-serif; }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<nav class="bg-[#FAF9FA] dark:bg-[#2F3031] docked full-width top-0 z-50 border-b-4 border-[#2F3031]/20 dark:border-[#FAF9FA]/10 flex justify-between items-center w-full px-6 py-4 max-w-[1440px] mx-auto flat no shadows">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black text-[#1E6D00] dark:text-[#5DBE3C] tracking-tighter font-['Space_Grotesk']">QueueBuddy</span>
+<div class="hidden md:flex gap-6">
+<a class="font-['Space_Grotesk'] font-bold tracking-tight text-[#2F3031] dark:text-[#FAF9FA] opacity-70 hover:opacity-100 hover:bg-[#5DBE3C]/10 transition-colors duration-100 py-2" href="#">Spawn</a>
+<a class="font-['Space_Grotesk'] font-bold tracking-tight text-[#2F3031] dark:text-[#FAF9FA] opacity-70 hover:opacity-100 hover:bg-[#5DBE3C]/10 transition-colors duration-100 py-2" href="#">Lobbies</a>
+<a class="font-['Space_Grotesk'] font-bold tracking-tight text-[#2F3031] dark:text-[#FAF9FA] opacity-70 hover:opacity-100 hover:bg-[#5DBE3C]/10 transition-colors duration-100 py-2" href="#">Raids</a>
+<a class="font-['Space_Grotesk'] font-bold tracking-tight text-[#1E6D00] dark:text-[#5DBE3C] border-b-4 border-[#1E6D00] dark:border-[#5DBE3C] pb-1 py-2" href="#">Revive</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#1E6D00] dark:text-[#5DBE3C] hover:bg-[#5DBE3C]/10 p-2"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-[#1E6D00] dark:text-[#5DBE3C] hover:bg-[#5DBE3C]/10 p-2"><span class="material-symbols-outlined">settings</span></button>
+<img alt="Pixel-art player avatar" class="w-10 h-10 border-4 border-outline-variant/20 rounded-none object-cover" data-alt="close-up pixel art style avatar of a young player with a green cap and brown hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv2Sy1rX3H7cyTDqnkG_svsm9rCER3xrbuMohbFq47Var1Q3GtcQvqj5lC6zikyXT0Q0pBp3RA5PkCqMqwzHhXfCjglIlmK9aiw9otm-aJ5C-7hujKrLb_NTwfUVYgZF76KDCT2S8Ek0kFAcrijkTAbd0Umdb6r1flFhgRk7x3bU2VR-k4n_hvLZueNc_LdD7Aq21d8kCyOBu56dIUTNoJ5fJgETTxetHLALBV9CISwc3AP0bjiz_hZkOZjYbNsM5_g_XwWK1r3mmC"/>
+</div>
+</nav>
+<div class="flex flex-1 max-w-[1440px] mx-auto w-full">
+<!-- SideNavBar -->
+<aside class="bg-[#FAF9FA] dark:bg-[#2F3031] h-[calc(100vh-80px)] w-64 border-r-4 border-[#2F3031]/10 tonal-stacking using bg-[#F0F0F0] dark:bg-[#3A3B3C] flat no shadows hidden lg:flex flex-col p-4 gap-4 sticky top-[80px]">
+<div class="flex items-center gap-3 p-2 mb-4 bg-surface-container-low border-4 border-outline-variant/20">
+<img alt="User's pixel character head" class="w-12 h-12 object-cover border-4 border-outline-variant/20" data-alt="close-up pixel art style avatar of a young player with a green cap and brown hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxOetHnhQy8B49ffMNvJ23PlCpvVhWzeHs6fj7hG8tQLIIlH2Bm0aoqwSy23VFuxFUWItrDcGzpiigY1AL4OpXyrPEZzIFf2eTX6RRHaL37f3P1jckG4Zw9lhYuolty2jHV6Mi6S9ecLgxqQiNxak3lJEx3owWTW0SSGDKuBu4597GOr1nmLHL8-efPYPSEv_VBm41j_CWrnnRnB-fzan1EpdSkJPQoQmmUvtLxY_twTTADUQqjkMDpLIvOrKtdILN226oHc6GNEUv"/>
+<div>
+<h3 class="font-['Work_Sans'] font-medium text-on-surface text-sm">Steve_99</h3>
+<p class="text-xs text-on-surface-variant font-['Work_Sans']">Level 45 Explorer</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2 flex-1">
+<a class="flex items-center gap-3 p-3 font-['Work_Sans'] font-medium text-[#2F3031] dark:text-[#FAF9FA] hover:bg-[#5DBE3C]/20 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-[#1E6D00] dark:text-[#5DBE3C]">home</span> Home
+                </a>
+<a class="flex items-center gap-3 p-3 font-['Work_Sans'] font-medium text-[#2F3031] dark:text-[#FAF9FA] hover:bg-[#5DBE3C]/20 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-[#1E6D00] dark:text-[#5DBE3C]">dns</span> Servers
+                </a>
+<a class="flex items-center gap-3 p-3 font-['Work_Sans'] font-medium text-[#2F3031] dark:text-[#FAF9FA] hover:bg-[#5DBE3C]/20 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-[#1E6D00] dark:text-[#5DBE3C]">swords</span> Raids
+                </a>
+<a class="flex items-center gap-3 p-3 font-['Work_Sans'] font-medium bg-[#5DBE3C] text-white font-bold border-b-4 border-[#1E6D00] hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined">celebration</span> Events
+                </a>
+</nav>
+<button class="w-full bg-primary text-on-primary font-headline font-bold py-4 border-b-4 border-on-primary-fixed-variant active:translate-y-0.5 active:border-b-0 transition-all uppercase tracking-wider text-sm">Create Lobby</button>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 p-6 lg:p-12 pb-32 overflow-y-auto bg-surface">
+<header class="mb-12">
+<h1 class="font-headline text-5xl md:text-6xl font-black text-on-surface mb-4 tracking-tighter">Revive World</h1>
+<p class="font-body text-xl text-on-surface-variant max-w-2xl">Join the massive community effort to bring dead multiplayer worlds back to life for one glorious weekend.</p>
+</header>
+<!-- Featured Event Hero Chunk -->
+<section class="bg-surface-container-low border-4 border-outline-variant/20 p-8 mb-16 relative overflow-hidden group">
+<div class="absolute inset-0 z-0">
+<img alt="Left 4 Dead 2 background" class="w-full h-full object-cover opacity-40 mix-blend-multiply" data-alt="Dark, gritty urban street scene at night with eerie green fog and abandoned cars, mimicking a zombie apocalypse game environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7r92x1DdMuCTjwVkhvneZxWZqh7IzxhUwjibGuna6McEVceTZpoykOWIwO3EL-cXomaNQuhMDriLUFivAo_eaQoP-4-DJl2gQE6ZjSc_FbfOgYwOq_ZiFiStesg9QbRC5X3XIKLpa-MF__qWJB2rXl64vm_fExq46ozSE56IfibSRDN7nGWss5sX_LZyl8usnxQIiitxEigS7jHXAcPBSjx7WvGCfS-IOM8iBlYEC0irFkXklbrZXavyMzaMiNdZkxP80d62w20rr"/>
+<div class="absolute inset-0 bg-gradient-to-br from-surface/90 via-surface/70 to-tertiary-container/30"></div>
+</div>
+<div class="relative z-10 flex flex-col md:flex-row gap-12 items-start">
+<div class="flex-1 space-y-6">
+<div class="inline-flex items-center gap-2 bg-tertiary text-on-tertiary px-3 py-1 font-headline font-bold text-sm tracking-wider uppercase border-b-4 border-on-tertiary-fixed-variant">
+<span class="material-symbols-outlined text-sm" data-weight="fill">local_fire_department</span> Featured Event
+                        </div>
+<div>
+<h2 class="font-headline text-4xl md:text-5xl font-black text-on-surface mb-2 leading-tight">Revive Left 4 Dead 2</h2>
+<p class="font-body text-2xl font-bold text-tertiary tracking-tight">This world is dying… revive it.</p>
+</div>
+<div class="bg-surface p-6 border-4 border-outline-variant/20 space-y-4 max-w-md shadow-[8px_8px_0px_0px_rgba(233,232,233,1)]">
+<div class="flex justify-between items-end font-headline font-bold">
+<div>
+<span class="text-3xl text-primary">8,402</span>
+<span class="text-sm text-on-surface-variant uppercase tracking-wider block">Players Joined</span>
+</div>
+<div class="text-right">
+<span class="text-lg text-on-surface">10,000</span>
+<span class="text-sm text-on-surface-variant uppercase tracking-wider block">Goal</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="h-8 bg-surface-container-highest border-4 border-outline-variant/20 relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-primary w-[84%] flex items-center justify-end pr-2">
+<div class="w-1 h-full bg-white/30 mr-1 skew-x-12"></div>
+<div class="w-2 h-full bg-white/30 skew-x-12"></div>
+</div>
+</div>
+</div>
+<button class="bg-primary text-on-primary font-headline font-black text-xl py-4 px-8 border-b-4 border-on-primary-fixed-variant active:translate-y-1 active:border-b-0 transition-all uppercase tracking-widest hover:bg-primary-container hover:text-on-primary-container inline-flex items-center gap-3">
+                            Join Event <span class="material-symbols-outlined">exit_to_app</span>
+</button>
+</div>
+<div class="w-full md:w-auto bg-surface-container border-4 border-outline-variant/20 p-8 flex flex-col items-center justify-center min-w-[300px] shadow-[8px_8px_0px_0px_rgba(233,232,233,1)]">
+<span class="font-headline text-sm font-bold text-on-surface-variant uppercase tracking-widest mb-4 border-b-2 border-outline-variant pb-1">Event Starts In</span>
+<div class="flex gap-4 font-headline text-5xl font-black text-tertiary">
+<div class="flex flex-col items-center">
+<span>48</span>
+<span class="text-xs text-on-surface-variant font-body font-bold mt-1 uppercase">Hours</span>
+</div>
+<span class="text-on-surface-variant/50">:</span>
+<div class="flex flex-col items-center">
+<span>12</span>
+<span class="text-xs text-on-surface-variant font-body font-bold mt-1 uppercase">Mins</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Upcoming Events Chunk Layout -->
+<section>
+<h3 class="font-headline text-3xl font-bold text-on-surface mb-8 border-l-8 border-tertiary pl-4">Upcoming Revivals</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Event Card 1 -->
+<div class="bg-surface-container-low border-4 border-outline-variant/20 hover:-translate-y-2 transition-transform duration-200 shadow-[4px_4px_0px_0px_rgba(191,202,181,0.5)]">
+<div class="h-40 bg-secondary-container relative border-b-4 border-outline-variant/20">
+<img alt="Team Fortress 2" class="w-full h-full object-cover mix-blend-luminosity opacity-80" data-alt="Cartoonish stylized desert landscape with red and blue team bases in the distance, reminiscent of an older class-based shooter" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEnRJgLuZIaqX_-6-ARyLJTyzabi7bUrnHuzKrwrs3c_JIXpqe1v3NgPCuUtYy5eenQScUd1XdXWKvHYMRevmsMBodUeYV9fWZExI26UsAIStqI_geY8Ol6S5fbyLv4EJsAaa-KJy3Ut8IDUt7PEQ9QN_LWbcTti5F__Oaql93KHDjX-GRS6adJXkG2r4Oj10Zmw3i6ktDk7wCGZ8bcAiXzmAlYIqv1iqLgYDApy3ktyKJm9bVqey8go7gHOzTpo8kYhF6rNdY5qYK"/>
+<div class="absolute top-4 left-4 bg-surface text-on-surface font-headline font-bold text-xs px-2 py-1 uppercase tracking-wider border-2 border-on-surface">Shooter</div>
+</div>
+<div class="p-6">
+<h4 class="font-headline text-xl font-bold mb-2">Team Fortress 2: Classic Maps</h4>
+<p class="font-body text-sm text-on-surface-variant mb-6 h-10">Dustbowl only. 32 players. Pure chaos.</p>
+<div class="flex justify-between items-center mt-auto">
+<div class="font-headline font-bold text-sm">
+<span class="text-primary block">1,204</span>
+<span class="text-on-surface-variant text-[10px] uppercase">Interested</span>
+</div>
+<button class="bg-surface border-4 border-outline-variant/20 text-on-surface font-headline font-bold px-4 py-2 hover:bg-surface-variant active:translate-y-1 transition-transform text-sm uppercase">Details</button>
+</div>
+</div>
+</div>
+<!-- Event Card 2 -->
+<div class="bg-surface-container-low border-4 border-outline-variant/20 hover:-translate-y-2 transition-transform duration-200 shadow-[4px_4px_0px_0px_rgba(191,202,181,0.5)]">
+<div class="h-40 bg-tertiary-container relative border-b-4 border-outline-variant/20">
+<img alt="Halo 3" class="w-full h-full object-cover mix-blend-luminosity opacity-80" data-alt="Sci-fi ring world interior landscape with metallic structures and grassy plains under a blue sky, similar to classic console shooters" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEkRfn_0_cp9PBmYYxBfFg_5LbcEPnttJQ9nzauqQe5PASutT8RA7mMZg1sioB3gU7i45GKfoGM50jRo8ScJbHo8Nv_yoKot5Gpvc7_I-iWfIzX3GLHTrXHyu7Fe7faQB1N5vPv5d5Ed8tLhkxB73FVOqAwIOrsd79jUfIL01TfLPhrlCWxGG_zoofahsHqEjO4ZrXK4fu9YPjJVhr0pMj73s8e-Fai33rR8il5yXG4AiHyrIkPUT8igu4SUCTEeH7jLoqpa9FWK2s"/>
+<div class="absolute top-4 left-4 bg-surface text-on-surface font-headline font-bold text-xs px-2 py-1 uppercase tracking-wider border-2 border-on-surface">Sci-Fi</div>
+</div>
+<div class="p-6">
+<h4 class="font-headline text-xl font-bold mb-2">Halo 3: Custom Games Night</h4>
+<p class="font-body text-sm text-on-surface-variant mb-6 h-10">Fat Kid, Trash Compactor, and Jenga.</p>
+<div class="flex justify-between items-center mt-auto">
+<div class="font-headline font-bold text-sm">
+<span class="text-primary block">3,892</span>
+<span class="text-on-surface-variant text-[10px] uppercase">Interested</span>
+</div>
+<button class="bg-surface border-4 border-outline-variant/20 text-on-surface font-headline font-bold px-4 py-2 hover:bg-surface-variant active:translate-y-1 transition-transform text-sm uppercase">Details</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- BottomNavBar -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-2 pb-safe bg-[#FAF9FA] dark:bg-[#2F3031] z-50 border-t-4 border-[#2F3031]/20 tonal-stacking shadow-[0_-4px_0_0_rgba(0,0,0,0.1)]">
+<a class="flex flex-col items-center justify-center text-[#2F3031] dark:text-[#FAF9FA] p-2 opacity-60 hover:opacity-100 w-full" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-['Work_Sans'] text-[10px] uppercase font-black">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2F3031] dark:text-[#FAF9FA] p-2 opacity-60 hover:opacity-100 w-full" href="#">
+<span class="material-symbols-outlined mb-1">grid_view</span>
+<span class="font-['Work_Sans'] text-[10px] uppercase font-black">Lobbies</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#2F3031] dark:text-[#FAF9FA] p-2 opacity-60 hover:opacity-100 w-full" href="#">
+<span class="material-symbols-outlined mb-1">groups</span>
+<span class="font-['Work_Sans'] text-[10px] uppercase font-black">Raids</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#5DBE3C] text-white p-2 border-b-4 border-[#1E6D00] hover:opacity-100 active:translate-y-1 transition-all w-full" href="#">
+<span class="material-symbols-outlined mb-1">hourglass_empty</span>
+<span class="font-['Work_Sans'] text-[10px] uppercase font-black">Revive</span>
+</a>
+</nav>
+</body></html>

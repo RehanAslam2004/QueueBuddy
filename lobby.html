@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QueueBuddy - Lobbies</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700;900&amp;family=Work+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#faf9fa",
+                        "inverse-primary": "#7add57",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#efedee",
+                        "primary-container": "#5dbe3c",
+                        "background": "#faf9fa",
+                        "surface-container-low": "#f4f3f4",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed-variant": "#683d0f",
+                        "tertiary-fixed-dim": "#89d0ed",
+                        "on-background": "#1a1c1d",
+                        "on-tertiary-container": "#004356",
+                        "on-primary-container": "#114800",
+                        "secondary-container": "#ffbf87",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#0c6780",
+                        "surface-bright": "#faf9fa",
+                        "surface-variant": "#e3e2e3",
+                        "on-tertiary-fixed": "#001f29",
+                        "secondary": "#835425",
+                        "primary": "#1e6d00",
+                        "secondary-fixed-dim": "#f9ba82",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#7a4b1e",
+                        "primary-fixed": "#95fb70",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed": "#2e1500",
+                        "surface-container-highest": "#e3e2e3",
+                        "on-primary-fixed-variant": "#145200",
+                        "on-tertiary-fixed-variant": "#004d62",
+                        "surface-container-high": "#e9e8e9",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#ffdcc1",
+                        "surface-dim": "#dbdadb",
+                        "primary-fixed-dim": "#7add57",
+                        "on-surface-variant": "#404a39",
+                        "surface-tint": "#1e6d00",
+                        "outline-variant": "#bfcab5",
+                        "inverse-on-surface": "#f2f0f1",
+                        "on-primary-fixed": "#042100",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#1a1c1d",
+                        "on-error": "#ffffff",
+                        "inverse-surface": "#2f3031",
+                        "tertiary-fixed": "#baeaff",
+                        "tertiary-container": "#6bb2ce",
+                        "outline": "#707a68"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    "spacing": {},
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Work Sans"],
+                        "label": ["Work Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .light-level-bg {
+            background: linear-gradient(135deg, var(--tw-colors-primary) 0%, var(--tw-colors-primary-container) 100%);
+        }
+        .btn-press {
+            border-bottom: 4px solid var(--tw-colors-on-primary-fixed-variant);
+        }
+        .btn-press:active {
+            transform: translateY(2px);
+            border-bottom-width: 2px;
+            margin-bottom: 2px;
+        }
+        .input-inset {
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen antialiased flex flex-col md:flex-row">
+<!-- SideNavBar (Hidden on Mobile, Visible on md+) -->
+<nav class="hidden lg:flex flex-col h-screen w-64 border-r-4 border-inverse-surface/10 bg-surface fixed left-0 top-0 z-40">
+<div class="p-6">
+<h1 class="font-headline font-black text-primary text-2xl tracking-tighter">QueueBuddy</h1>
+</div>
+<div class="flex items-center gap-4 px-6 py-4 mb-8 tonal-stacking bg-surface-container-low">
+<img alt="Pixel-art player avatar" class="w-12 h-12 rounded-none border-2 border-outline-variant" data-alt="A small, stylized pixel art character head, reminiscent of classic 8-bit games, wearing a simple blue cap." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhH-7V32yZrKScmU0dDEHpdkfok2fFt3zYxsK3s95agjfLnJtOE1wgu90HCYw7Dyxur11r9cGFYETrPsQnKabhhgF7cbdo0B3SPIAiaUm7L8rhPXCKhn8IHzlpYBmpZtijEnRxkvPyhMnB7rvLyeiA2CwCAQrf_-93EmzCy1zn5_8jeXR2iv3qZPZzwvH7y06peGcTO4lwNr1V4sSnWZzJHyholGF_SjN-qQstzBM6KBnJCyD5hdyLvOOHMDHAMJshYgaNWZ3vBTjX"/>
+<div>
+<p class="font-headline font-bold text-on-surface">Steve_99</p>
+<p class="font-label text-xs text-on-surface-variant">Level 45 Explorer</p>
+</div>
+</div>
+<div class="flex-col p-4 gap-4 flex-1 overflow-y-auto">
+<a class="flex items-center gap-3 p-3 text-inverse-surface hover:bg-primary-container/20 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-tertiary">home</span>
+<span class="font-headline font-medium">Home</span>
+</a>
+<a class="flex items-center gap-3 p-3 bg-primary-container text-on-primary font-bold border-b-4 border-primary transform scale-95 transition-all" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dns</span>
+<span class="font-headline">Lobbies</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-inverse-surface hover:bg-primary-container/20 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-tertiary">swords</span>
+<span class="font-headline font-medium">Raids</span>
+</a>
+<a class="flex items-center gap-3 p-3 text-inverse-surface hover:bg-primary-container/20 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-tertiary">celebration</span>
+<span class="font-headline font-medium">Events</span>
+</a>
+</div>
+<div class="p-6 mt-auto">
+<button class="w-full light-level-bg text-on-primary font-headline font-bold py-3 px-4 btn-press uppercase tracking-widest text-sm">Create Lobby</button>
+</div>
+</nav>
+<!-- TopAppBar (Visible on Mobile, Hidden on lg+) -->
+<header class="lg:hidden docked full-width top-0 z-50 bg-surface border-b-4 border-inverse-surface/20 flex justify-between items-center w-full px-6 py-4 max-w-[1440px] mx-auto flat no shadows">
+<h1 class="text-2xl font-black text-primary tracking-tighter font-headline">QueueBuddy</h1>
+<div class="flex items-center gap-4">
+<button class="text-primary hover:bg-primary-container/10 transition-colors duration-100 p-2"><span class="material-symbols-outlined">notifications</span></button>
+<button class="text-primary hover:bg-primary-container/10 transition-colors duration-100 p-2"><span class="material-symbols-outlined">settings</span></button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 pb-24 md:pb-8 pt-6 md:pt-12 px-4 md:px-12 max-w-7xl mx-auto w-full">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+<div>
+<h2 class="font-headline text-[3.5rem] leading-none font-bold text-on-surface mb-2">Server Browser</h2>
+<p class="font-body text-on-surface-variant text-lg">Select a realm or join an active session.</p>
+</div>
+<!-- Search Bar -->
+<div class="relative w-full md:w-80">
+<input class="w-full bg-surface-dim input-inset border-none p-4 pl-12 text-on-surface font-body outline-none placeholder-on-surface-variant" placeholder="Search realms or players..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-tertiary">search</span>
+</div>
+</div>
+<!-- Biome Chunks (Game Selection) -->
+<section class="mb-16">
+<h3 class="font-headline text-[1.75rem] font-bold text-on-surface mb-8 border-l-8 border-secondary pl-4">Active Realms</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="bg-surface-container-high border-4 border-outline-variant/20 hover:border-secondary transition-colors group cursor-pointer">
+<div class="h-40 w-full relative">
+<img alt="Blocky landscape" class="w-full h-full object-cover" data-alt="A sprawling landscape made entirely of cubic blocks, showing mountains, trees, and water in vibrant, saturated colors, like a classic sandbox game screenshot." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1FnTlxdwd7LErFKBSfO94Eee9I1IE6rQWpvY27rE4dk4FMGjAnv7ZWY6PWWPia0-K2neVE4zy2YuqCyIPNJInjMuGmJzHSJy4o8pnQP_UhFBitbUudbmVDmodl5D_0k1X_D8DUxy2p5ZO_3oRWGi-E0sdLRZVFleeclqxAZM-Ti5ToOnRUuHSw26I-IoFHIMim4C28EOzyu4-4ugGxF3NkWPKmUp8ni8Up22XjRFGS3Uae1vAqTEzhF-ghXfCbNBHubmzmUN_kh-o"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-highest to-transparent"></div>
+<span class="absolute top-4 right-4 bg-tertiary text-on-tertiary font-label text-xs px-2 py-1 uppercase font-bold tracking-wider">Survival</span>
+</div>
+<div class="p-6">
+<h4 class="font-headline font-bold text-xl mb-2 group-hover:text-primary transition-colors">Nether Wastes</h4>
+<p class="font-body text-sm text-on-surface-variant mb-4">Hardcore survival instance. PvP enabled. No resets.</p>
+<div class="flex justify-between items-center text-xs font-label text-tertiary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">group</span> 45/100</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">speed</span> 24ms</span>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-high border-4 border-outline-variant/20 hover:border-secondary transition-colors group cursor-pointer relative top-4">
+<div class="h-40 w-full relative">
+<img alt="Cyberpunk city" class="w-full h-full object-cover" data-alt="A highly stylized, low-resolution cyberpunk cityscape at night, illuminated by bright neon pink and cyan lights, constructed from distinct block shapes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy7yA3sFJSQl8MpAqU--PlcKaIPCNSuzp5ydZFyM6sRwR-zTZ0JT9pn51Su7RarhCMuKfMcG3tSJ2u0NucUuWBmbEOWDCI0oOdJCgmDcXQw6TGteYKj6fuxAAUqEtSJcqVBqGUOv_Ti-Tn7ufEXXQ21sRtrDRC623abUe1GqrpRhRXl8F9zozEm686B2C7HHN1l5b_NPumu6PZ1ezraVRLLuLHACWj5A_QuEFINWS3D8GETMDQumPWqJ36PFHgcYtiQ89I9vT5C3YE"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-highest to-transparent"></div>
+<span class="absolute top-4 right-4 bg-primary-container text-on-primary-container font-label text-xs px-2 py-1 uppercase font-bold tracking-wider">Creative</span>
+</div>
+<div class="p-6">
+<h4 class="font-headline font-bold text-xl mb-2 group-hover:text-primary transition-colors">Neo-Voxel City</h4>
+<p class="font-body text-sm text-on-surface-variant mb-4">Free build zone. Collaborate on mega-structures.</p>
+<div class="flex justify-between items-center text-xs font-label text-tertiary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">group</span> 12/50</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">speed</span> 45ms</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-high border-4 border-outline-variant/20 hover:border-secondary transition-colors group cursor-pointer">
+<div class="h-40 w-full relative">
+<img alt="Arena" class="w-full h-full object-cover" data-alt="A stark, brutalist arena interior viewed from a high angle, constructed from large, monolithic blocks of grey stone and illuminated by harsh overhead lights." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpDfspiU-NptuOOddl5fULXxk5kPBJd7Q0ZE10V_BbCyvXyp0qDtqN52hx8naDOZrQOwp-SK3XynjwNhyAHz-a_BP6GEF1-j5hGl26KuBEKXcNb_bSRngTp6BUanJsZQ028_wCZW97eRYweVO9X8k45wsVJYSdYsMYuRR4CRacW6-rfeJTUnj9tZlvVPMlmiYWCNLxN2rOL92Lp-vcOmE1hb9KVYTlOkvtZNwr9QqdtMxBi9ipqzo8MCSSc_-u_aNudERtiFMtpmax"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-highest to-transparent"></div>
+<span class="absolute top-4 right-4 bg-error text-on-error font-label text-xs px-2 py-1 uppercase font-bold tracking-wider">Mini-Games</span>
+</div>
+<div class="p-6">
+<h4 class="font-headline font-bold text-xl mb-2 group-hover:text-primary transition-colors">The Coliseum</h4>
+<p class="font-body text-sm text-on-surface-variant mb-4">Rotating quick matches: Spleef, SkyWars, and more.</p>
+<div class="flex justify-between items-center text-xs font-label text-tertiary">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">group</span> 98/200</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-base">speed</span> 15ms</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Player Lobbies (Excavated Layer) -->
+<section class="bg-surface-container-low p-8 border-4 border-outline-variant/20">
+<h3 class="font-headline text-[1.75rem] font-bold text-on-surface mb-8 border-l-8 border-primary pl-4">Players Looking For Group</h3>
+<div class="space-y-6">
+<!-- Player Card 1 -->
+<div class="bg-surface p-6 flex flex-col md:flex-row items-start md:items-center justify-between border-b-4 border-r-4 border-surface-container-highest hover:-translate-y-1 transition-transform">
+<div class="flex items-center gap-6 mb-4 md:mb-0">
+<img alt="Avatar" class="w-16 h-16 border-2 border-outline-variant" data-alt="A stylized 2D avatar of a fantasy warrior with bright green armor and a stern expression, painted in broad, blocky strokes." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClPc11OWkypbJ3JbOiAiefgQmRhy8Pcu0Veuv4A4_VDfhKtmOWvrRgIjhZasdR4kdcUSeRfo6qXj2woqLkMdCVYlkd5b3aSXc1rPxflCKYSq5Ukjzqjoa0Zka1gPP2WNYsY-8X0tD7GIq3OW9e2_m-JExwlurroLEAFbaoPwa0muNH10Z4uf4BlGAXRw39OvnoJVHTWETc1TC8DGNhTWla0nRCMHTloD802bmRuyPtkgJZwgmbCK06pfPXgsV0hh4Ip0u_eRO4tWGJ"/>
+<div>
+<h4 class="font-headline font-bold text-xl text-on-surface flex items-center gap-2">Creeper_21 <span class="w-3 h-3 bg-primary block rounded-none"></span></h4>
+<p class="font-body text-sm text-on-surface-variant mt-1">Looking to run a fresh survival map.</p>
+<div class="flex gap-2 mt-3">
+<span class="bg-surface-container px-2 py-1 text-[10px] font-label uppercase text-on-surface font-bold border border-outline-variant/30">Chill</span>
+<span class="bg-surface-container px-2 py-1 text-[10px] font-label uppercase text-on-surface font-bold border border-outline-variant/30">Mic ON</span>
+</div>
+</div>
+</div>
+<button class="w-full md:w-auto light-level-bg text-on-primary font-headline font-bold py-2 px-8 btn-press uppercase tracking-wider text-sm">Connect</button>
+</div>
+<!-- Player Card 2 -->
+<div class="bg-surface p-6 flex flex-col md:flex-row items-start md:items-center justify-between border-b-4 border-r-4 border-surface-container-highest hover:-translate-y-1 transition-transform ml-0 md:ml-8">
+<div class="flex items-center gap-6 mb-4 md:mb-0">
+<div class="w-16 h-16 bg-secondary-container border-2 border-outline-variant flex items-center justify-center text-on-secondary-container font-headline font-bold text-2xl">
+                            A
+                        </div>
+<div>
+<h4 class="font-headline font-bold text-xl text-on-surface flex items-center gap-2">Alchemist_Joe <span class="w-3 h-3 bg-secondary block rounded-none"></span></h4>
+<p class="font-body text-sm text-on-surface-variant mt-1">Need 2 for Hardmode Raid. Be geared.</p>
+<div class="flex gap-2 mt-3">
+<span class="bg-surface-container px-2 py-1 text-[10px] font-label uppercase text-error font-bold border border-outline-variant/30">Competitive</span>
+<span class="bg-surface-container px-2 py-1 text-[10px] font-label uppercase text-on-surface font-bold border border-outline-variant/30">Lvl 50+</span>
+</div>
+</div>
+</div>
+<button class="w-full md:w-auto bg-surface-container-highest text-on-surface font-headline font-bold py-2 px-8 btn-press border-b-4 border-outline-variant uppercase tracking-wider text-sm hover:bg-surface-dim">Request</button>
+</div>
+<!-- Player Card 3 -->
+<div class="bg-surface p-6 flex flex-col md:flex-row items-start md:items-center justify-between border-b-4 border-r-4 border-surface-container-highest hover:-translate-y-1 transition-transform">
+<div class="flex items-center gap-6 mb-4 md:mb-0">
+<img alt="Avatar" class="w-16 h-16 border-2 border-outline-variant" data-alt="A vibrant, pixelated icon of a glowing purple crystal, floating against a dark background, typical of a rare game item." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpGAdk7OJJj7ehbdPTYT-JJpwLvwdMPEZgWcw-CljFGFbvNvm1aAEwqEzm3QsXh_sUE6h_fw6wlHyMnAyrvzKMyYQIt3uWADLXNp3amef_r0KVm8LdAc0TBJwL10s48En-XIdrWsQVTOsKGinIo431Cu638Xpt-XqNGxDA-eck_DXVxQpDKej1rOGCFnMNRbFt2h20GniZRI0Su6ifxHH-AFt0ucsfY51KuhJbYykXtQuhDgE5dmpBZPUEPcWpLLY_Qr0r7rifMBTX"/>
+<div>
+<h4 class="font-headline font-bold text-xl text-on-surface flex items-center gap-2">Void_Walker <span class="w-3 h-3 bg-primary block rounded-none"></span></h4>
+<p class="font-body text-sm text-on-surface-variant mt-1">Building mega-farm. Could use an extra set of hands.</p>
+<div class="flex gap-2 mt-3">
+<span class="bg-surface-container px-2 py-1 text-[10px] font-label uppercase text-on-surface font-bold border border-outline-variant/30">Builder</span>
+<span class="bg-surface-container px-2 py-1 text-[10px] font-label uppercase text-on-surface font-bold border border-outline-variant/30">No Mic</span>
+</div>
+</div>
+</div>
+<button class="w-full md:w-auto light-level-bg text-on-primary font-headline font-bold py-2 px-8 btn-press uppercase tracking-wider text-sm">Connect</button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Visible on Mobile, Hidden on lg+) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-2 pb-4 pt-2 bg-surface border-t-4 border-inverse-surface/20 z-50 shadow-[0_-4px_0_0_rgba(0,0,0,0.1)] tonal-stacking">
+<a class="flex flex-col items-center justify-center text-inverse-surface p-2 opacity-60 hover:opacity-100" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+<span class="font-label text-[10px] uppercase font-black">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-primary-container text-on-primary p-2 border-b-4 border-primary translate-y-1 transition-all" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-label text-[10px] uppercase font-black">Lobbies</span>
+</a>
+<a class="flex flex-col items-center justify-center text-inverse-surface p-2 opacity-60 hover:opacity-100" href="#">
+<span class="material-symbols-outlined mb-1">groups</span>
+<span class="font-label text-[10px] uppercase font-black">Raids</span>
+</a>
+<a class="flex flex-col items-center justify-center text-inverse-surface p-2 opacity-60 hover:opacity-100" href="#">
+<span class="material-symbols-outlined mb-1">hourglass_empty</span>
+<span class="font-label text-[10px] uppercase font-black">Revive</span>
+</a>
+</nav>
+</body></html>

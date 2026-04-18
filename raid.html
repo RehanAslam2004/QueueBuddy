@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>QueueBuddy - Plan Raid</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700;800;900&amp;family=Work+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface": "#faf9fa",
+                      "inverse-primary": "#7add57",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-container": "#efedee",
+                      "primary-container": "#5dbe3c",
+                      "background": "#faf9fa",
+                      "surface-container-low": "#f4f3f4",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#683d0f",
+                      "tertiary-fixed-dim": "#89d0ed",
+                      "on-background": "#1a1c1d",
+                      "on-tertiary-container": "#004356",
+                      "on-primary-container": "#114800",
+                      "secondary-container": "#ffbf87",
+                      "on-error-container": "#93000a",
+                      "tertiary": "#0c6780",
+                      "surface-bright": "#faf9fa",
+                      "surface-variant": "#e3e2e3",
+                      "on-tertiary-fixed": "#001f29",
+                      "secondary": "#835425",
+                      "primary": "#1e6d00",
+                      "secondary-fixed-dim": "#f9ba82",
+                      "on-primary": "#ffffff",
+                      "on-secondary-container": "#7a4b1e",
+                      "primary-fixed": "#95fb70",
+                      "error-container": "#ffdad6",
+                      "on-secondary-fixed": "#2e1500",
+                      "surface-container-highest": "#e3e2e3",
+                      "on-primary-fixed-variant": "#145200",
+                      "on-tertiary-fixed-variant": "#004d62",
+                      "surface-container-high": "#e9e8e9",
+                      "error": "#ba1a1a",
+                      "secondary-fixed": "#ffdcc1",
+                      "surface-dim": "#dbdadb",
+                      "primary-fixed-dim": "#7add57",
+                      "on-surface-variant": "#404a39",
+                      "surface-tint": "#1e6d00",
+                      "outline-variant": "#bfcab5",
+                      "inverse-on-surface": "#f2f0f1",
+                      "on-primary-fixed": "#042100",
+                      "on-tertiary": "#ffffff",
+                      "on-surface": "#1a1c1d",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2f3031",
+                      "tertiary-fixed": "#baeaff",
+                      "tertiary-container": "#6bb2ce",
+                      "outline": "#707a68"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0px",
+                      "lg": "0px",
+                      "xl": "0px",
+                      "full": "0px"
+              },
+              "spacing": {},
+              "fontFamily": {
+                      "headline": [
+                              "Space Grotesk"
+                      ],
+                      "body": [
+                              "Work Sans"
+                      ],
+                      "label": [
+                              "Work Sans"
+                      ]
+              }
+            },
+          },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background-color: theme('colors.background');
+            color: theme('colors.on-background');
+        }
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        
+        /* Tactical Voxel Borders */
+        .voxel-border {
+            box-shadow: 0 4px 0 0 theme('colors.surface-variant');
+        }
+        .voxel-border-primary {
+            box-shadow: 0 4px 0 0 theme('colors.on-primary-fixed-variant');
+        }
+        .voxel-input {
+            box-shadow: inset 0 2px 0 0 rgba(0,0,0,0.1);
+        }
+        
+        /* Light Level Gradient */
+        .light-level-gradient {
+            background: linear-gradient(135deg, theme('colors.primary'), theme('colors.primary-container'));
+        }
+    </style>
+</head>
+<body class="bg-surface flex flex-col min-h-screen">
+<!-- TopAppBar -->
+<nav class="docked full-width top-0 z-50 bg-[#FAF9FA] dark:bg-[#2F3031] border-b-4 border-[#2F3031]/20 dark:border-[#FAF9FA]/10 flex justify-between items-center w-full px-6 py-4 max-w-[1440px] mx-auto flat no shadows">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-black text-[#1E6D00] dark:text-[#5DBE3C] tracking-tighter font-['Space_Grotesk']">QueueBuddy</span>
+<div class="hidden md:flex gap-6 font-['Space_Grotesk'] font-bold tracking-tight">
+<a class="text-[#2F3031] dark:text-[#FAF9FA] opacity-70 hover:opacity-100 hover:bg-[#5DBE3C]/10 transition-colors duration-100 px-3 py-2" href="#">Spawn</a>
+<a class="text-[#2F3031] dark:text-[#FAF9FA] opacity-70 hover:opacity-100 hover:bg-[#5DBE3C]/10 transition-colors duration-100 px-3 py-2" href="#">Lobbies</a>
+<a class="text-[#1E6D00] dark:text-[#5DBE3C] border-b-4 border-[#1E6D00] dark:border-[#5DBE3C] pb-1 px-3 py-2 Active: translate-y-0.5 transition-transform hover:bg-[#5DBE3C]/10" href="#">Raids</a>
+<a class="text-[#2F3031] dark:text-[#FAF9FA] opacity-70 hover:opacity-100 hover:bg-[#5DBE3C]/10 transition-colors duration-100 px-3 py-2" href="#">Revive</a>
+</div>
+</div>
+<div class="flex items-center gap-4 text-[#1E6D00] dark:text-[#5DBE3C]">
+<button class="hover:bg-[#5DBE3C]/10 p-2 transition-colors duration-100">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">notifications</span>
+</button>
+<button class="hover:bg-[#5DBE3C]/10 p-2 transition-colors duration-100">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">settings</span>
+</button>
+<img alt="Pixel-art player avatar" class="w-10 h-10 bg-surface-variant voxel-border object-cover border-4 border-surface-variant" data-alt="Close up of a generic pixel art style character face on a plain background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCScHYUL7XhQYOH2Cyos3DVUEooo59NEkiqoK5jXbQwZ13Iy_-x6rVO4YwkpK8fDJU1CkbV-5uoXftt8k8551I68QjC2nljjqpw-2fOcd6EZCxuYFyEgg4SJjjPlwytYas62AYUnNREYXDcQTRsimpPy69zQO2wvT5hBiLxOxhnUl4Mk_OGu1-41JDkL0zHtQEB7sohZ7QGVo1ZzAnVqcThI0sG0aUTT3zDpnTfDNtZRj177M3RwMpI-gUUeer7nNC-3gnOgRurdxtr"/>
+</div>
+</nav>
+<div class="flex flex-1 w-full max-w-[1440px] mx-auto">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col h-full p-4 gap-4 h-screen w-64 border-r-4 border-[#2F3031]/10 bg-[#FAF9FA] dark:bg-[#2F3031] tonal-stacking using bg-[#F0F0F0] dark:bg-[#3A3B3C] flat no shadows">
+<div class="flex items-center gap-3 mb-8 px-2">
+<img alt="User's pixel character head" class="w-12 h-12 bg-surface-variant border-4 border-surface-variant object-cover" data-alt="Close up of a generic pixel art style character face on a plain background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuibmtL6xl6CL9c-i5CO33gXqMYY_FKDyR1trNs5sD1f4_b_v7qeIOeBn-BR7x3_UMlLYLsPgR3fYtXTz8HgM4kdfAlVnJRz5wdEAgJANq0B9NTYAEY01GzL_3inuW3Ok5KIP-uBHIRa9WCAejZ9_yQT3PJ7c8O0exEpdCMfwVTgRCf6V_BmFkjx22oOJ6Iy8D5zi76p5dsd-qbkR7I6oWN0Zp0tbcbg7lULLrosgHIlXimh4hFycacWp3a80_lkXNo2Y779RFErUu"/>
+<div>
+<div class="font-['Space_Grotesk'] font-black text-[#1E6D00] text-lg leading-tight">Steve_99</div>
+<div class="text-xs text-on-surface-variant font-['Work_Sans'] font-medium">Level 45 Explorer</div>
+</div>
+</div>
+<nav class="flex flex-col gap-2 font-['Work_Sans'] font-medium">
+<a class="flex items-center gap-3 p-3 text-[#2F3031] dark:text-[#FAF9FA] hover:bg-[#5DBE3C]/20 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-tertiary">home</span> Home
+                </a>
+<a class="flex items-center gap-3 p-3 text-[#2F3031] dark:text-[#FAF9FA] hover:bg-[#5DBE3C]/20 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-tertiary">dns</span> Servers
+                </a>
+<a class="flex items-center gap-3 p-3 bg-[#5DBE3C] text-white font-bold border-b-4 border-[#1E6D00] Active: scale-95 transition-all" href="#">
+<span class="material-symbols-outlined">swords</span> Raids
+                </a>
+<a class="flex items-center gap-3 p-3 text-[#2F3031] dark:text-[#FAF9FA] hover:bg-[#5DBE3C]/20 hover:translate-x-1 transition-transform" href="#">
+<span class="material-symbols-outlined text-tertiary">celebration</span> Events
+                </a>
+</nav>
+<div class="mt-auto pt-8">
+<button class="w-full py-4 bg-primary text-on-primary font-headline font-bold text-lg voxel-border-primary active:translate-y-[2px] active:shadow-none transition-all">
+                    Create Lobby
+                </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 p-6 lg:p-12 pb-24 md:pb-12 overflow-y-auto">
+<header class="mb-16 md:flex justify-between items-end gap-8">
+<div class="max-w-2xl">
+<h1 class="text-5xl md:text-6xl font-headline font-black text-primary mb-4 tracking-tighter">Plan Raid</h1>
+<p class="text-lg text-on-surface-variant font-body">Assemble your squad and schedule the next drop. The world awaits.</p>
+</div>
+</header>
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-12 lg:gap-16">
+<!-- Left Column: Create Form -->
+<section class="xl:col-span-5 flex flex-col gap-8">
+<div class="bg-surface-container-low p-6 md:p-8 border-4 border-surface-variant relative overflow-hidden">
+<!-- Voxel corner accent -->
+<div class="absolute top-0 right-0 w-8 h-8 bg-tertiary-container border-b-4 border-l-4 border-surface-variant"></div>
+<h2 class="text-2xl font-headline font-bold text-on-surface mb-8 border-b-4 border-surface-variant pb-4 inline-block pr-8">Create Raid</h2>
+<form class="flex flex-col gap-6">
+<!-- Game Selector -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-on-surface-variant uppercase tracking-wider font-body">Select Target</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-dim voxel-input border-none py-4 px-4 pr-12 text-on-surface font-headline font-medium focus:ring-4 focus:ring-primary-container/50">
+<option>Minecraft: Ender Dragon</option>
+<option>Destiny 2: Vault of Glass</option>
+<option>WoW: Icecrown Citadel</option>
+<option>Custom Server Event</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-tertiary">keyboard_arrow_down</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<!-- Date/Time -->
+<div class="flex flex-col gap-2 col-span-2 sm:col-span-1">
+<label class="text-sm font-bold text-on-surface-variant uppercase tracking-wider font-body">Deploy Time</label>
+<div class="relative">
+<input class="w-full bg-surface-dim voxel-input border-none py-4 px-4 text-on-surface font-headline font-medium focus:ring-4 focus:ring-primary-container/50" type="datetime-local"/>
+</div>
+</div>
+<!-- Player Limit -->
+<div class="flex flex-col gap-2 col-span-2 sm:col-span-1">
+<label class="text-sm font-bold text-on-surface-variant uppercase tracking-wider font-body">Max Squad</label>
+<div class="relative flex items-center bg-surface-dim voxel-input">
+<button class="px-4 py-4 text-on-surface hover:bg-surface-variant transition-colors" type="button"><span class="material-symbols-outlined">remove</span></button>
+<input class="w-full bg-transparent border-none text-center font-headline font-bold text-lg p-0 focus:ring-0" max="40" min="2" type="number" value="5"/>
+<button class="px-4 py-4 text-on-surface hover:bg-surface-variant transition-colors" type="button"><span class="material-symbols-outlined">add</span></button>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="flex flex-col gap-2">
+<label class="text-sm font-bold text-on-surface-variant uppercase tracking-wider font-body">Briefing Notes</label>
+<textarea class="w-full bg-surface-dim voxel-input border-none py-4 px-4 text-on-surface font-body resize-none focus:ring-4 focus:ring-primary-container/50" placeholder="Bring potions, need 2 healers..." rows="3"></textarea>
+</div>
+<button class="mt-4 w-full py-5 light-level-gradient text-on-primary font-headline font-black text-xl tracking-wide voxel-border-primary active:translate-y-[4px] active:shadow-none transition-all flex items-center justify-center gap-3" type="submit">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">rocket_launch</span>
+                                INITIATE RAID
+                            </button>
+</form>
+</div>
+</section>
+<!-- Right Column: Upcoming Raids -->
+<section class="xl:col-span-7 flex flex-col gap-8">
+<div class="flex items-end justify-between border-b-4 border-surface-variant pb-4 mb-4">
+<h2 class="text-3xl font-headline font-bold text-on-surface tracking-tight">Upcoming Drops</h2>
+<div class="flex gap-2">
+<button class="bg-surface-container-high p-2 hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined">filter_list</span></button>
+<button class="bg-surface-container-high p-2 hover:bg-surface-variant transition-colors"><span class="material-symbols-outlined">view_module</span></button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Raid Card 1 -->
+<article class="bg-surface-container flex flex-col border-4 border-surface-variant hover:-translate-y-2 hover:shadow-[8px_8px_0_0_#e3e2e3] transition-all duration-200">
+<div class="h-32 bg-secondary-container relative overflow-hidden border-b-4 border-surface-variant">
+<img alt="Minecraft Landscape" class="w-full h-full object-cover mix-blend-overlay opacity-80" data-alt="Voxel blocky landscape with grassy hills and blue sky, bright daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3V3P0kswVVe4u96b6WyBDtvYv5b-HRLgPljTXSKTbVpr-Tr-D9fDcrHpjfs_F7kr_kY_MXAyy-PGH5Pmb2hLOeIGD0lxr0hwOW2DiOpjYXFIk-nxQ9Iu7R5OiZ2QZ5Hco9lkVOTK_-yrbovDpVcggy8AQhKnE1iY61POqAKErMhLLvkZfUFNyXTnRZrplS8qlbG05kJevrb5D1KeF-E2nRQv8tH8ciC4bKtn0j33zY4FlIpzM6BzXIQ1bFa107MF6_H0Nxu83Q74Z"/>
+<div class="absolute top-3 left-3 bg-primary text-on-primary text-xs font-bold px-2 py-1 font-headline uppercase">Starting Soon</div>
+<div class="absolute bottom-3 right-3 bg-surface text-on-surface text-sm font-bold px-3 py-1 font-headline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary">timer</span> 02:45:00
+                                </div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-1">Ender Dragon Rush</h3>
+<p class="text-sm font-body text-on-surface-variant">Minecraft • Vanilla Server</p>
+</div>
+<div class="flex items-center justify-between mt-auto pt-4 border-t-4 border-surface-variant border-dotted">
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 bg-tertiary border-2 border-surface"></div>
+<div class="w-8 h-8 bg-secondary border-2 border-surface"></div>
+<div class="w-8 h-8 bg-primary border-2 border-surface"></div>
+</div>
+<span class="text-sm font-bold font-headline text-on-surface ml-2">3/5 Slots</span>
+</div>
+<button class="bg-primary text-on-primary font-headline font-bold px-4 py-2 text-sm voxel-border-primary active:translate-y-[2px] active:shadow-none transition-all">
+                                        JOIN
+                                    </button>
+</div>
+</div>
+</article>
+<!-- Raid Card 2 -->
+<article class="bg-surface-container flex flex-col border-4 border-surface-variant hover:-translate-y-2 hover:shadow-[8px_8px_0_0_#e3e2e3] transition-all duration-200">
+<div class="h-32 bg-tertiary-container relative overflow-hidden border-b-4 border-surface-variant">
+<div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMSI+PC9yZWN0Pgo8cGF0aCBkPSJNMCAwbDh2OEgwem04IDB2OGw4LTh6IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuMDUiPjwvcGF0aD4KPC9zdmc+')] opacity-50"></div>
+<div class="absolute bottom-3 right-3 bg-surface text-on-surface text-sm font-bold px-3 py-1 font-headline flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-tertiary">calendar_month</span> Tomorrow
+                                </div>
+</div>
+<div class="p-5 flex flex-col flex-1 gap-4">
+<div>
+<h3 class="font-headline font-bold text-xl text-on-surface mb-1">Vault of Glass [Hard]</h3>
+<p class="text-sm font-body text-on-surface-variant">Destiny 2 • Need Warlocks</p>
+</div>
+<div class="flex items-center justify-between mt-auto pt-4 border-t-4 border-surface-variant border-dotted">
+<div class="flex items-center gap-2">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 bg-tertiary border-2 border-surface"></div>
+<div class="w-8 h-8 bg-surface-dim border-2 border-surface flex items-center justify-center text-xs">+4</div>
+</div>
+<span class="text-sm font-bold font-headline text-on-surface ml-2">5/6 Slots</span>
+</div>
+<button class="bg-primary text-on-primary font-headline font-bold px-4 py-2 text-sm voxel-border-primary active:translate-y-[2px] active:shadow-none transition-all">
+                                        JOIN
+                                    </button>
+</div>
+</div>
+</article>
+</div>
+</section>
+</div>
+</main>
+</div>
+<!-- BottomNavBar -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center px-2 pb-safe bg-[#FAF9FA] dark:bg-[#2F3031] fixed bottom-0 w-full z-50 border-t-4 border-[#2F3031]/20 tonal-stacking shadow-[0_-4px_0_0_rgba(0,0,0,0.1)]">
+<a class="flex flex-col items-center justify-center text-[#2F3031] dark:text-[#FAF9FA] p-2 opacity-60 hover:opacity-100 font-['Work_Sans'] text-[10px] uppercase font-black w-full py-3" href="#">
+<span class="material-symbols-outlined mb-1">home</span>
+            Home
+        </a>
+<a class="flex flex-col items-center justify-center text-[#2F3031] dark:text-[#FAF9FA] p-2 opacity-60 hover:opacity-100 font-['Work_Sans'] text-[10px] uppercase font-black w-full py-3" href="#">
+<span class="material-symbols-outlined mb-1">grid_view</span>
+            Lobbies
+        </a>
+<a class="flex flex-col items-center justify-center bg-[#5DBE3C] text-white p-2 border-b-4 border-[#1E6D00] font-['Work_Sans'] text-[10px] uppercase font-black w-full py-3 Active: translate-y-1 transition-all" href="#">
+<span class="material-symbols-outlined mb-1">groups</span>
+            Raids
+        </a>
+<a class="flex flex-col items-center justify-center text-[#2F3031] dark:text-[#FAF9FA] p-2 opacity-60 hover:opacity-100 font-['Work_Sans'] text-[10px] uppercase font-black w-full py-3" href="#">
+<span class="material-symbols-outlined mb-1">hourglass_empty</span>
+            Revive
+        </a>
+</nav>
+</body></html>
