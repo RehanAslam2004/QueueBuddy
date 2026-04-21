@@ -92,8 +92,8 @@ function LobbiesContent() {
   const [isCreating, setIsCreating] = useState(false);
   const [newGame, setNewGame] = useState("Minecraft");
   const [maxPlayers, setMaxPlayers] = useState(4);
-  const [tags, setTags] = useState("");
   const [connectInfo, setConnectInfo] = useState("");
+  const [tags, setTags] = useState("");
 
   // In-lobby slide-up drawer
   const [activeServer, setActiveServer] = useState<Server | null>(null);
@@ -331,7 +331,7 @@ function LobbiesContent() {
         <div className="flex justify-between items-center mb-4 border-l-4 border-secondary pl-2">
           <h2 className="font-headline text-base font-bold text-on-surface">Active Servers</h2>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-3">
         {loading ? (
           Array(8).fill(0).map((_, i) => (
             <div key={i} className="bg-surface-container-low h-32 animate-pulse border-4 border-surface-variant"></div>
@@ -401,11 +401,18 @@ function LobbiesContent() {
                 {/* Body */}
                 <div className="p-2 flex flex-col gap-2 bg-surface/30">
                   <div className="flex justify-between items-center">
-                    <div className="min-w-0">
+                    <div className="min-w-0 flex-1">
                        <h3 className="font-headline font-black text-[10px] text-on-surface uppercase tracking-tight truncate">
                         {server.game}
                       </h3>
-                      <p className="text-[7px] font-black text-on-surface-variant uppercase tracking-[0.2em] opacity-60">
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {server.tags?.map((tag, i) => (
+                          <span key={i} className="text-[6px] font-black bg-primary/10 text-primary px-1 py-0.5 border border-primary/20 uppercase tracking-widest leading-none">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-[7px] font-black text-on-surface-variant uppercase tracking-[0.2em] opacity-60 mt-1">
                         OP: {server.players.find((p) => p.temp_user_id === server.host_id)?.username || "ADMIN"}
                       </p>
                     </div>

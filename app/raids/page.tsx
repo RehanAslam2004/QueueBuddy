@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useIdentity } from "@/hooks/useIdentity";
 import { checkAndConvertExpiredItems } from "@/lib/utils/conversion";
@@ -47,6 +48,7 @@ type SessionPlayer = {
 
 export default function RaidsPage() {
     const { tempUserId, username } = useIdentity();
+    const router = useRouter();
     const [sessions, setSessions] = useState<Session[]>([]);
     
     // Form state
@@ -138,6 +140,45 @@ export default function RaidsPage() {
             temp_user_id: tempUserId,
             username: username
         });
+    }
+
+    const handleLaunchLobby = async (session: Session) => {
+        if (!tempUserId || tempUserId !== session.creator_id) return;
+        
+        const connectInfo = prompt("Enter Connect Info (Discord link or IP):", "discord.gg/queuebuddy");
+        if (!connectInfo) return;
+
+        // Check if already launched
+        const { data: existing } = await supabase
+            .from('servers')
+            .select('id')
+            .eq('origin_id', session.id)
+            .single();
+
+        if (existing) {
+            alert("This operation is already live!");
+            router.push('/lobbies');
+            return;
+        }
+
+        const { data: server, error } = await supabase.from('servers').insert({
+            host_id: tempUserId,
+            game: session.game,
+            max_players: session.max_players,
+            connect_info: connectInfo,
+            origin_id: session.id,
+            status: 'active'
+        }).select().single();
+
+        if (server) {
+            // Auto join the host
+            await supabase.from('server_players').insert({
+                server_id: server.id,
+                temp_user_id: tempUserId,
+                username: username
+            });
+            router.push('/lobbies');
+        }
     }
 
     return (
@@ -252,50 +293,46 @@ export default function RaidsPage() {
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 gap-3">
                     {sessions.map(session => {
-                        const isFull = session.players?.length >= session.max_players;
+                        const isFull = (session.players?.length || 0) >= session.max_players;
                         const isJoined = session.players?.some(p => p.temp_user_id === tempUserId);
 
                         return (
                             <article key={session.id} className="bg-surface-container-low flex flex-col border-2 border-outline-variant/10 hover:border-primary/50 transition-all duration-300">
-                                <div className="h-20 bg-surface-dim relative overflow-hidden border-b-2 border-outline-variant/10">
+                                <div className="h-16 bg-surface-dim relative overflow-hidden border-b-2 border-outline-variant/10">
                                     <img alt="Game background" className="w-full h-full object-cover opacity-20" src={getThumb(session.game)} />
                                     
-                                    <div className="absolute top-2 left-2 bg-on-surface text-surface text-[8px] font-black px-1.5 py-0.5 font-headline uppercase tracking-widest shadow-sm">
+                                    <div className="absolute top-1 left-1 bg-on-surface text-surface text-[6px] font-black px-1 py-0.5 font-headline uppercase tracking-widest shadow-sm">
                                         {new Date(session.time).toLocaleDateString()}
                                     </div>
-                                    <div className="absolute bottom-2 right-2 bg-primary text-on-primary text-[10px] font-black px-2 py-0.5 font-headline flex items-center gap-1.5 shadow-sm">
-                                        <span className="material-symbols-outlined text-[12px]">timer</span> 
+                                    <div className="absolute bottom-1 right-1 bg-primary text-on-primary text-[8px] font-black px-1.5 py-0.5 font-headline flex items-center gap-1 shadow-sm">
+                                        <span className="material-symbols-outlined text-[10px]">timer</span> 
                                         {formatTimeLeft(new Date(session.time))}
                                     </div>
                                 </div>
                                 
-                                <div className="p-3 flex flex-col flex-1 gap-3">
-                                    <div className="flex gap-3 items-start">
-                                        <div className="bg-surface-dim p-1.5 border border-outline-variant/20 text-primary shrink-0">
-                                            <span className="material-symbols-outlined text-lg">{getGameIcon(session.game)}</span>
+                                <div className="p-2 flex flex-col flex-1 gap-2">
+                                    <div className="flex gap-2 items-start">
+                                        <div className="bg-surface-dim p-1 border border-outline-variant/20 text-primary shrink-0">
+                                            <span className="material-symbols-outlined text-sm">{getGameIcon(session.game)}</span>
                                         </div>
                                         <div className="min-w-0">
-                                            <h3 className="font-headline font-black text-sm text-on-surface truncate uppercase tracking-tight">{session.game}</h3>
-                                            <p className="text-[10px] font-body text-on-surface-variant line-clamp-1">{session.notes || "No tactical data."}</p>
+                                            <h3 className="font-headline font-black text-[11px] text-on-surface truncate uppercase tracking-tight leading-none">{session.game}</h3>
+                                            <p className="text-[8px] font-body text-on-surface-variant line-clamp-1 mt-0.5">{session.notes || "No tactical data."}</p>
                                         </div>
                                     </div>
-                                    
-                                    <div className="text-[8px] font-black text-tertiary uppercase tracking-[0.2em] opacity-80">
-                                        OP: {session.creator_username}
-                                    </div>
 
-                                    <div className="flex items-center justify-between mt-auto pt-2 border-t-2 border-outline-variant/10 border-dotted">
-                                        <div className="flex items-center gap-2">
-                                            <div className="flex -space-x-1.5">
+                                    <div className="flex items-center justify-between mt-auto pt-1.5 border-t border-outline-variant/10 border-dotted">
+                                        <div className="flex items-center gap-1.5">
+                                            <div className="flex -space-x-1">
                                                 {session.players?.slice(0, 3).map((p, i) => (
-                                                    <div key={p.id} className="w-6 h-6 border-[1.5px] border-surface object-cover shadow-sm bg-surface-container" style={{ zIndex: 10 - i }} title={p.username}>
+                                                    <div key={p.id} className="w-5 h-5 border-[1px] border-surface object-cover shadow-sm bg-surface-container" style={{ zIndex: 10 - i }} title={p.username}>
                                                         <img src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${p.username}`} className="w-full h-full" alt="avatar"/>
                                                     </div>
                                                 ))}
                                             </div>
-                                            <span className="text-[10px] font-black font-headline text-on-surface">
+                                            <span className="text-[9px] font-black font-headline text-on-surface">
                                                 {session.players?.length || 0}/{session.max_players}
                                             </span>
                                         </div>
@@ -303,19 +340,29 @@ export default function RaidsPage() {
                                         {!isJoined && !isFull && (
                                             <button 
                                                 onClick={() => handleJoinSession(session.id)}
-                                                className="bg-primary text-on-primary font-headline font-black px-3 py-1 text-[10px] border-b-2 border-on-primary-fixed-variant active:translate-y-[1px] active:border-b-0 transition-all uppercase tracking-widest shadow-sm"
+                                                className="bg-primary text-on-primary font-headline font-black px-2 py-1 text-[8px] border-b-2 border-on-primary-fixed-variant active:translate-y-[1px] active:border-b-0 transition-all uppercase tracking-widest"
                                             >
                                                 JOIN
                                             </button>
                                         )}
                                         {isJoined && (
-                                            <span className="text-primary font-headline font-black text-[10px] uppercase tracking-widest flex items-center gap-1">
-                                                <span className="material-symbols-outlined text-xs">check_circle</span>
-                                                READY
-                                            </span>
+                                            <div className="flex gap-2 items-center">
+                                                <span className="text-secondary font-headline font-black text-[8px] uppercase tracking-widest flex items-center gap-0.5">
+                                                    <span className="material-symbols-outlined text-[10px]">check_circle</span>
+                                                    READY
+                                                </span>
+                                                {session.creator_id === tempUserId && (
+                                                    <button 
+                                                        onClick={() => handleLaunchLobby(session)}
+                                                        className="bg-tertiary text-on-tertiary font-headline font-black px-2 py-1 text-[8px] border-b-2 border-on-tertiary-fixed-variant active:translate-y-[1px] active:border-b-0 transition-all uppercase tracking-widest animate-pulse"
+                                                    >
+                                                        LAUNCH OPS
+                                                    </button>
+                                                )}
+                                            </div>
                                         )}
                                         {!isJoined && isFull && (
-                                            <span className="text-on-surface-variant font-headline font-black text-[10px] uppercase tracking-widest opacity-50">
+                                            <span className="text-on-surface-variant font-headline font-black text-[8px] uppercase tracking-widest opacity-50">
                                                 LOCKED
                                             </span>
                                         )}

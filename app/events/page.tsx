@@ -309,8 +309,8 @@ export default function EventsPage() {
                       ))}
                     </div>
                   </div>
-                  {/* Percentage text: ensuring it's always visible with a subtle shadow */}
-                  <span className="absolute inset-0 flex items-center justify-center font-headline font-black text-[10px] text-on-surface uppercase tracking-[0.2em] drop-shadow-[0_1px_1px_rgba(255,255,255,1)]">
+                  {/* Percentage text: ensuring it's always visible with high contrast */}
+                  <span className="absolute inset-0 flex items-center justify-center font-headline font-black text-[10px] text-white uppercase tracking-[0.2em] drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] z-10">
                     {featuredPct}% CAPACITY REACHED
                   </span>
                 </div>
@@ -375,7 +375,7 @@ export default function EventsPage() {
           {upcoming.length === 0 && (
             <p className="text-on-surface-variant font-body italic text-xs">No other events scheduled yet.</p>
           )}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
             {upcoming.map((event) => {
               const pct = Math.min(100, Math.round((event.joined_count / event.total_slots) * 100));
 
