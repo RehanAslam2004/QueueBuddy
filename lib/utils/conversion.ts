@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { dropLoot, incrementPlayerStat } from "@/lib/rewards";
 
 export async function checkAndConvertExpiredItems() {
   const now = new Date().toISOString();
@@ -33,13 +34,20 @@ export async function checkAndConvertExpiredItems() {
           const playersToMove = session.session_players.map((p: any) => ({
             server_id: server.id,
             temp_user_id: p.temp_user_id,
-            username: p.username
+            username: p.username,
+            mc_username: p.mc_username,
+            role: p.role
           }));
 
           // Use upsert to prevent unique constraint errors if some players are already there
           await supabase.from('server_players').upsert(playersToMove, {
               onConflict: 'server_id, temp_user_id'
           });
+
+          // Award loot to everyone who joined
+          for (const player of session.session_players) {
+            await dropLoot(player.temp_user_id, session.id);
+          }
         }
         
         // After successful conversion, delete the session to stop further checks
@@ -80,6 +88,10 @@ export async function checkAndConvertExpiredItems() {
               if (!serverError || serverError.code === '23505') {
                   // Mark event as unfeatured so it doesn't try again
                   await supabase.from('events').update({ is_featured: false }).eq('id', event.id);
+                  
+                  // In a real app, you'd fetch the players who joined this specific event 
+                  // and award them revivals_completed + loot.
+                  // For now, let's assume we want to reward players when the event goes live.
               }
           } catch (err) {
               console.error('Event conversion failed:', event.id, err);

@@ -6,27 +6,16 @@ export default function Home() {
   return (
     <div className="max-w-4xl mx-auto flex flex-col gap-8">
       {/* Hero Section */}
-      <section className="flex flex-col md:flex-row gap-6 items-center justify-between bg-surface p-6 border-4 border-outline-variant/20 shadow-[4px_4px_0_0_rgba(0,0,0,0.05)]">
-        <div className="flex-1 space-y-3">
-          <h1 className="font-headline text-4xl lg:text-5xl font-black text-on-surface tracking-tighter leading-none">
-            Queue<span className="text-primary">Buddy</span>
+      <section className="flex flex-col gap-6 items-center justify-center text-center bg-surface p-8 border-4 border-outline-variant/20 shadow-[4px_4px_0_0_rgba(0,0,0,0.05)]">
+        <div className="space-y-4">
+          <h1 className="font-accent text-4xl lg:text-6xl font-black text-on-surface tracking-tighter leading-none uppercase">
+            QUEUE<span className="text-primary">BUDDY</span>
           </h1>
-          <p className="font-body text-base text-on-surface-variant font-medium">
+          <p className="font-pixel text-base text-on-surface-variant font-bold uppercase tracking-tight">
             Find players. Revive games. Play instantly.
           </p>
-          <p className="text-xs font-body text-on-surface-variant border-l-4 border-primary pl-3">
+          <div className="text-[10px] font-pixel font-bold text-on-surface-variant border-x-4 border-primary px-3 bg-primary/5 py-1 uppercase tracking-widest inline-block">
             No login. No account. Just you and your squad.
-          </p>
-        </div>
-        <div className="flex-shrink-0">
-          <div className="w-32 h-32 bg-secondary-container border-4 border-secondary flex items-center justify-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent" />
-            <span
-              className="material-symbols-outlined text-6xl text-secondary"
-              style={{ fontVariationSettings: "'FILL' 1" }}
-            >
-              videogame_asset
-            </span>
           </div>
         </div>
       </section>
@@ -83,6 +72,45 @@ export default function Home() {
               </div>
             </div>
           ))}
+        </div>
+      </section>
+      {/* Minecraft-Themed Welcome & Contribution Section */}
+      <section className="bg-surface p-8 border-4 border-primary relative overflow-hidden group">
+        <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+          <span className="material-symbols-outlined text-8xl">handyman</span>
+        </div>
+        
+        <div className="relative z-10 space-y-6">
+          <div className="flex items-center gap-4">
+             <div className="w-2 h-8 bg-primary animate-pulse" />
+             <h2 className="font-accent text-3xl font-black text-on-surface uppercase tracking-tight">Welcome, Operative</h2>
+          </div>
+          
+          <div className="bg-primary/5 p-6 voxel-border border-4 border-dashed border-primary/30 space-y-4">
+             <p className="font-pixel text-sm font-bold text-on-surface leading-relaxed uppercase">
+               QueueBuddy is a community-driven initiative built for the players, by the players. 
+               We believe in zero-friction gaming and the preservation of multiplayer communities.
+             </p>
+             <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                <a 
+                  href="https://github.com/RehanAslam2004" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="mc-button mc-button-primary flex items-center justify-center gap-2 py-3 px-6"
+                >
+                  <span className="material-symbols-outlined text-base">fork_left</span>
+                  CONTRIBUTE ON GITHUB
+                </a>
+                <div className="flex items-center gap-3 px-4 py-2 bg-surface border-2 border-on-surface/10">
+                   <span className="material-symbols-outlined text-primary text-sm">contact_support</span>
+                   <span className="text-[10px] font-black uppercase tracking-widest opacity-60">Reporting bugs helps the network.</span>
+                </div>
+             </div>
+          </div>
+          
+          <p className="text-[9px] font-black text-on-surface-variant uppercase tracking-[0.3em] text-center opacity-40">
+            Node Network Status: BETA-READY // AUTH: OPEN // ENCRYPTION: ACTIVE
+          </p>
         </div>
       </section>
     </div>

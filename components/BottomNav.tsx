@@ -1,4 +1,5 @@
 "use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,7 +11,7 @@ export function BottomNav() {
     pathname === path || (path !== "/" && pathname.startsWith(path));
 
   const itemClass = (path: string) =>
-    `flex flex-col items-center justify-center py-1.5 px-1 w-1/4 transition-all active:translate-y-0.5 ${
+    `flex flex-col items-center justify-center py-1.5 px-1 w-1/6 transition-all active:translate-y-0.5 ${
       isActive(path)
         ? "bg-primary text-on-primary border-b-2 border-on-primary-fixed-variant"
         : "text-on-surface-variant opacity-60 hover:opacity-100"
@@ -33,6 +34,14 @@ export function BottomNav() {
       <Link className={itemClass("/events")} href="/events">
         <span className="material-symbols-outlined mb-0.5 text-xl">celebration</span>
         Revive
+      </Link>
+      <Link className={itemClass("/inventory")} href="/inventory">
+        <span className="material-symbols-outlined mb-0.5 text-xl">inventory_2</span>
+        Vault
+      </Link>
+      <Link className={itemClass("/achievements")} href="/achievements">
+        <span className="material-symbols-outlined mb-0.5 text-xl">emoji_events</span>
+        Fame
       </Link>
     </nav>
   );

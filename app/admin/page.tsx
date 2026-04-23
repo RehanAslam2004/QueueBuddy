@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { GAMES, getGameIcon } from "@/lib/games";
+import { incrementPlayerStat } from "@/lib/rewards";
 
 type AppEvent = {
     id: string;
@@ -176,8 +177,17 @@ export default function AdminPage() {
 
     const terminateLobby = async (id: string) => {
         if (!confirm("Terminate this server lobby?")) return;
+        
+        // Fetch players to award revivals (simulated)
+        const { data: players } = await supabase.from('server_players').select('temp_user_id').eq('server_id', id);
+        if (players) {
+            for (const p of players) {
+                await incrementPlayerStat(p.temp_user_id, "revivals_completed");
+            }
+        }
+
         await supabase.from("servers").delete().eq("id", id);
-        showToast("Lobby terminated.");
+        showToast("Lobby terminated. Revivals credited.");
     };
 
     const terminateRaid = async (id: string) => {

@@ -4,8 +4,10 @@ import { persist } from 'zustand/middleware'
 interface IdentityState {
   tempUserId: string | null;
   username: string | null;
+  mcUsername: string | null;
   initialize: () => void;
   setUsername: (name: string) => void;
+  setMcUsername: (name: string | null) => void;
 }
 
 const generateRandomUsername = () => {
@@ -24,6 +26,7 @@ export const useIdentity = create<IdentityState>()(
     (set, get) => ({
       tempUserId: null,
       username: null,
+      mcUsername: null,
       
       initialize: () => {
         const state = get();
@@ -36,6 +39,7 @@ export const useIdentity = create<IdentityState>()(
       },
 
       setUsername: (name: string) => set({ username: name }),
+      setMcUsername: (name: string | null) => set({ mcUsername: name }),
     }),
     {
       name: 'queuebuddy-identity', // name of the item in the storage (must be unique)

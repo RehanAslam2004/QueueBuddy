@@ -32,6 +32,13 @@
   --outline-variant: #bfcab5;
   --error: #ba1a1a;
   --on-error: #ffffff;
+
+  /* Minecraft Specific */
+  --mc-grass: #55FF55;
+  --mc-dirt: #AA5500;
+  --mc-sky: #55FFFF;
+  --mc-stone: #AAAAAA;
+  --mc-gold: #FFFF55;
 }
 
 @theme {
@@ -69,6 +76,9 @@
   --font-headline: "Space Grotesk", sans-serif;
   --font-body: "Work Sans", sans-serif;
   --font-label: "Work Sans", sans-serif;
+  --font-pixel: "Minecraft", monospace;
+  --font-accent: "Minecraft", cursive;
+  --font-body: "Minecraft", sans-serif;
 }
 
 /* ─── Base Styles ────────────────────────────────────────────── */
@@ -146,3 +156,64 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: var(--outline);
 }
+
+/* ─── Minecraft Pixel UI ─────────────────────────────────────── */
+@utility voxel-border {
+  image-rendering: pixelated;
+  border: 4px solid #000;
+  box-shadow: 
+    inset -4px -4px 0px 0px rgba(0,0,0,0.25),
+    inset 4px 4px 0px 0px rgba(255,255,255,0.5);
+  background: var(--surface-container);
+}
+
+@utility mc-button {
+  font-family: var(--font-pixel), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  position: relative;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  background: #7c7c7c;
+  border: 2px solid #000;
+  box-shadow: 
+    inset -2px -2px 0px 0px rgba(0,0,0,0.4),
+    inset 2px 2px 0px 0px rgba(255,255,255,0.4);
+
+  &:hover {
+    background: #8e8e8e;
+  }
+  
+  &:active {
+    transform: translateY(2px);
+  }
+}
+
+@utility mc-button-primary {
+  background: var(--primary);
+  box-shadow: 
+    inset -2px -2px 0px 0px rgba(0,0,0,0.4),
+    inset 2px 2px 0px 0px rgba(255,255,255,0.2);
+
+  &:hover {
+    background: #2a8a00;
+  }
+}
+
+@utility mc-card {
+  @apply voxel-border p-4 bg-surface-container-low transition-all hover:scale-[1.01];
+  border-color: #313131;
+}
+
+@utility mc-input {
+  @apply bg-surface-dim p-2 border-2 border-black focus:ring-0 text-on-surface;
+  font-family: var(--font-pixel), monospace;
+  box-shadow: inset 2px 2px 0px 0px rgba(0,0,0,0.2);
+}
+
+@utility font-pixel { font-family: var(--font-pixel), monospace; }
+@utility font-accent { font-family: var(--font-accent), cursive; }

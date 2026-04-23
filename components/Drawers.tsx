@@ -1,4 +1,5 @@
 "use client";
+"use client";
 
 import { useUI } from "@/hooks/useUI";
 import { useIdentity } from "@/hooks/useIdentity";
@@ -7,23 +8,22 @@ import { useState, useEffect } from "react";
 
 export function Drawers() {
   const { settingsOpen, notificationsOpen, setSettingsOpen, setNotificationsOpen } = useUI();
-  const { username, setUsername } = useIdentity();
-  
-  // BUG FIX: newName was initialized with `username || ""` at render time, before
-  // Zustand rehydrates from localStorage. This meant the field was always blank on
-  // first open. Now synced via useEffect whenever username changes.
+  const { username, setUsername, mcUsername, setMcUsername } = useIdentity();
   const [newName, setNewName] = useState("");
+  const [newMcName, setNewMcName] = useState("");
 
   useEffect(() => {
     if (username) setNewName(username);
-  }, [username]);
+    if (mcUsername) setNewMcName(mcUsername);
+  }, [username, mcUsername]);
 
-  const handleUpdateName = (e: React.FormEvent) => {
+  const handleUpdateIdentity = (e: React.FormEvent) => {
     e.preventDefault();
     if (newName.trim()) {
       setUsername(newName.trim());
-      setSettingsOpen(false);
     }
+    setMcUsername(newMcName.trim() || null);
+    setSettingsOpen(false);
   };
 
   return (
@@ -37,10 +37,10 @@ export function Drawers() {
       )}
 
       {/* ── Settings Drawer ──────────────────────────────── */}
-      <div className={`fixed top-0 right-0 h-full w-72 bg-surface-container-high border-l-4 border-outline z-[101] transition-transform duration-300 transform ${settingsOpen ? 'translate-x-0' : 'translate-x-full'} overflow-y-auto`}>
+      <div className={`fixed top-0 right-0 h-full w-80 bg-surface-container-high border-l-4 border-on-surface z-[101] transition-transform duration-300 transform ${settingsOpen ? 'translate-x-0' : 'translate-x-full'} overflow-y-auto font-pixel`}>
         <div className="p-6 space-y-6">
           <div className="flex justify-between items-center">
-            <h2 className="font-headline text-xl font-black text-on-surface uppercase tracking-tight">Settings</h2>
+            <h2 className="text-2xl font-black text-on-surface uppercase tracking-tight font-accent">Settings</h2>
             <button
               onClick={() => setSettingsOpen(false)}
               className="material-symbols-outlined text-on-surface-variant hover:text-error transition-colors p-1 text-xl"
@@ -51,30 +51,63 @@ export function Drawers() {
 
           {/* Identity Section */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 p-2 bg-surface-dim border-2 border-outline-variant/20">
-              <img
-                src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${username || 'user'}`}
-                alt="Avatar"
-                className="w-8 h-8 border-2 border-outline-variant/30"
-              />
+            <div className="mc-card flex items-center gap-4 bg-mc-stone/20">
+              <div className="w-12 h-12 bg-black/10 voxel-border flex items-center justify-center p-1">
+                {mcUsername ? (
+                  <img
+                    src={`https://mc-heads.net/avatar/${mcUsername}`}
+                    alt="MC Skin"
+                    className="w-full h-full"
+                  />
+                ) : (
+                  <img
+                    src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${username || 'user'}`}
+                    alt="Avatar"
+                    className="w-full h-full"
+                  />
+                )}
+              </div>
               <div>
-                <p className="font-bold text-xs text-on-surface">{username || "Unknown"}</p>
-                <p className="text-[9px] text-on-surface-variant uppercase tracking-widest leading-none">Anonymous Player</p>
+                <p className="font-bold text-lg text-on-surface leading-none">{username || "Unknown"}</p>
+                <p className="text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">
+                  {mcUsername ? `Sync: ${mcUsername}` : "Anonymous Player"}
+                </p>
               </div>
             </div>
-            <form onSubmit={handleUpdateName} className="space-y-3">
-              <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">
-                Change Display Name
-              </label>
-              <input
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-                className="w-full bg-surface-dim border-none p-3 font-headline font-bold text-on-surface text-sm outline-none focus:ring-2 focus:ring-primary/20"
-                placeholder="Enter username..."
-              />
-              <button className="w-full bg-primary text-on-primary font-headline font-black py-2.5 border-b-2 border-on-primary-fixed-variant hover:translate-y-[-1px] active:translate-y-[1px] active:border-b-0 transition-all uppercase text-xs tracking-wider">
-                Update Identity
+
+            <form onSubmit={handleUpdateIdentity} className="space-y-6">
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-widest">
+                  Display Name
+                </label>
+                <input
+                  type="text"
+                  value={newName}
+                  onChange={(e) => setNewName(e.target.value)}
+                  className="w-full mc-input"
+                  placeholder="Enter username..."
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="block text-xs font-bold text-on-primary-container-variant uppercase tracking-widest flex items-center gap-1">
+                  Minecraft Username 
+                  <span className="text-[8px] bg-primary/20 px-1 rounded">SKIN SYNC</span>
+                </label>
+                <input
+                  type="text"
+                  value={newMcName}
+                  onChange={(e) => setNewMcName(e.target.value)}
+                  className="w-full mc-input"
+                  placeholder="e.g. Dream, Notch..."
+                />
+                <p className="text-[9px] text-on-surface-variant leading-tight">
+                  Enter your MC name to show your real skin across the platform.
+                </p>
+              </div>
+
+              <button className="w-full mc-button mc-button-primary">
+                Update Profile
               </button>
             </form>
           </div>

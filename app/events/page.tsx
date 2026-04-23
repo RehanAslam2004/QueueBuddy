@@ -5,6 +5,9 @@ import { supabase } from "@/lib/supabase";
 import { useIdentity } from "@/hooks/useIdentity";
 import { checkAndConvertExpiredItems } from "@/lib/utils/conversion";
 import { getGameIcon } from "@/lib/games";
+import { PixelAvatar } from "@/components/PixelAvatar";
+import { useSound } from "@/hooks/useSound";
+import { incrementPlayerStat } from "@/lib/rewards";
 
 type AppEvent = {
   id: string;
@@ -139,6 +142,7 @@ function RevivalStatus({ pct }: { pct: number }) {
 ══════════════════════════════════════════════════════════════ */
 export default function EventsPage() {
   const { tempUserId } = useIdentity();
+  const { play } = useSound();
   const [events, setEvents]             = useState<AppEvent[]>([]);
   const [joinedEvents, setJoinedEvents] = useState<string[]>([]);
   const [recentActivity, setRecentActivity] = useState<any[]>([]);
@@ -192,6 +196,7 @@ export default function EventsPage() {
 
   const handleJoinEvent = async (event: AppEvent) => {
     if (!tempUserId || joinedEvents.includes(event.id)) return;
+    play("click");
     const { error } = await supabase
       .from("events")
       .update({ joined_count: event.joined_count + 1 })
@@ -203,6 +208,11 @@ export default function EventsPage() {
       // Trigger flash animation on counter
       setActiveJoinFlash(event.id);
       setTimeout(() => setActiveJoinFlash(null), 800);
+      play("xp");
+      // Tracking
+      incrementPlayerStat(tempUserId, "events_joined");
+    } else {
+      play("error");
     }
   };
 
@@ -229,7 +239,7 @@ export default function EventsPage() {
       </header>
 
       {/* ── Featured Event Hero ──────────────────────────────── */}
-      <section className="relative overflow-hidden border-4 border-outline mb-6 group scanlines shadow-[4px_4px_0_0_rgba(0,0,0,0.05)]">
+      <section className="relative overflow-hidden border-4 voxel-border border-outline mb-6 group scanlines shadow-[4px_4px_0_0_rgba(0,0,0,0.05)]">
         {/* Voxel Grid Overlay */}
         <div className="absolute inset-0 z-0 opacity-10 voxel-grid group-hover:opacity-15 transition-opacity" />
 
@@ -257,7 +267,7 @@ export default function EventsPage() {
 
             {/* Game + title */}
             <div className="flex gap-3 items-center">
-              <div className="bg-surface p-2 border-4 border-outline-variant/30 flex-shrink-0 animate-float">
+              <div className="bg-surface p-2 border-4 voxel-border border-outline-variant/30 flex-shrink-0 animate-float">
                 <span
                   className="material-symbols-outlined text-3xl text-primary"
                   style={{ fontVariationSettings: "'FILL' 1" }}
@@ -274,7 +284,7 @@ export default function EventsPage() {
             </div>
 
             {/* Stats + Progress */}
-            <div className="bg-surface border-4 border-outline-variant/20 p-3 max-w-sm space-y-3 shadow-[4px_4px_0_0_rgba(233,232,233,1)]">
+            <div className="bg-surface border-4 voxel-border border-outline-variant/20 p-3 max-w-sm space-y-3 shadow-[4px_4px_0_0_rgba(233,232,233,1)]">
               {/* Live counter */}
               <div className="flex justify-between items-end">
                 <div>
@@ -345,7 +355,7 @@ export default function EventsPage() {
             </div>
 
           {/* Countdown panel */}
-          <div className="bg-surface border-4 border-outline-variant/20 p-5 flex flex-col items-center shadow-[4px_4px_0_0_rgba(233,232,233,1)] gap-3">
+          <div className="bg-surface border-4 voxel-border border-outline-variant/20 p-5 flex flex-col items-center shadow-[4px_4px_0_0_rgba(233,232,233,1)] gap-3">
             <p className="font-headline text-xs font-black uppercase tracking-[0.2em] text-on-surface-variant">
               Event Starts In
             </p>
@@ -383,7 +393,7 @@ export default function EventsPage() {
               return (
                 <div
                   key={event.id}
-                  className="bg-surface-container-low border-4 border-outline-variant/20 hover:-translate-y-2 hover:shadow-[8px_8px_0_0_rgba(191,202,181,0.5)] transition-all duration-200 flex flex-col"
+                  className="bg-surface-container-low border-4 voxel-border border-outline-variant/20 hover:-translate-y-2 hover:shadow-[8px_8px_0_0_rgba(191,202,181,0.5)] transition-all duration-200 flex flex-col"
                 >
                   {/* Thumbnail */}
                   <div className="h-24 relative overflow-hidden border-b-2 border-outline-variant/10">
@@ -428,7 +438,7 @@ export default function EventsPage() {
                       {!hasJoined ? (
                         <button
                           onClick={() => handleJoinEvent(event)}
-                          className="w-full bg-primary text-on-primary font-headline font-black py-2 hover:translate-y-[-1px] active:translate-y-0 shadow-sm transition-all text-[10px] uppercase tracking-widest border-b-2 border-on-primary-fixed-variant"
+                          className="mc-button w-full bg-primary text-on-primary font-headline font-black py-2.5 shadow-sm text-[10px] uppercase tracking-widest border-b-2 border-on-primary-fixed-variant"
                         >
                           JOIN OPS
                         </button>
@@ -453,7 +463,7 @@ export default function EventsPage() {
             <span className="material-symbols-outlined text-primary text-sm animate-pulse" style={{ fontVariationSettings: "'FILL' 1" }}>sensors</span>
             Pulse
           </h3>
-          <div className="bg-surface-container border-4 border-outline-variant/20 overflow-hidden">
+          <div className="bg-surface-container border-4 voxel-border border-outline-variant/20 overflow-hidden">
             <div className="bg-primary/10 border-b-2 border-outline-variant/20 p-2 flex items-center justify-between">
               <span className="text-[9px] font-black uppercase tracking-[0.2em] text-on-surface-variant">Live Activity</span>
               <span className="flex items-center gap-1">
@@ -467,11 +477,9 @@ export default function EventsPage() {
                   key={i}
                   className={`p-4 flex gap-3 items-start hover:bg-surface-variant/10 transition-colors ${i === 0 ? "bg-primary/5" : ""}`}
                 >
-                  <img
-                    alt="Avatar"
-                    src={`https://api.dicebear.com/7.x/pixel-art/svg?seed=${act.username}`}
-                    className={`w-8 h-8 border-2 border-outline-variant/30 flex-shrink-0 ${i === 0 ? "ring-2 ring-primary ring-offset-1" : ""}`}
-                  />
+                  <div className={`flex-shrink-0 ${i === 0 ? "ring-2 ring-primary ring-offset-1" : ""}`}>
+                    <PixelAvatar size="sm" username={act.username} mcUsername={act.mc_username} />
+                  </div>
                   <div className="min-w-0">
                     <div className="flex items-center gap-1 flex-wrap">
                       <span className="font-black text-primary text-xs truncate">{act.username}</span>

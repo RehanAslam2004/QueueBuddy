@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Work_Sans } from "next/font/google";
+import { Space_Grotesk, Work_Sans, VT323, Press_Start_2P } from "next/font/google";
+import "typeface-minecraft";
 import "./globals.css";
 
+import Link from "next/link";
+import { DayNightProvider } from "@/components/DayNightProvider";
 import { Header } from "@/components/Header";
 import { Sidebar } from "@/components/Sidebar";
 import { BottomNav } from "@/components/BottomNav";
 import { Drawers } from "@/components/Drawers";
-import { DayNightProvider } from "@/components/DayNightProvider";
+import { Footer } from "@/components/Footer";
+import { WelcomeToast } from "../components/WelcomeToast";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -18,6 +22,18 @@ const workSans = Work_Sans({
   variable: "--font-work-sans",
   subsets: ["latin"],
   weight: ["100", "300", "400", "500", "600", "700", "900"],
+});
+
+const vt323 = VT323({
+  variable: "--font-vt323",
+  subsets: ["latin"],
+  weight: ["400"],
+});
+
+const pressStart2P = Press_Start_2P({
+  variable: "--font-press-start",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -47,7 +63,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={`${spaceGrotesk.variable} ${workSans.variable} antialiased`}>
+      <body className={`${spaceGrotesk.variable} ${workSans.variable} ${vt323.variable} ${pressStart2P.variable} antialiased`}>
         <DayNightProvider>
           <Header />
           <div className="flex flex-1 min-h-0 flex-col md:flex-row max-w-[1440px] mx-auto w-full">
@@ -56,8 +72,11 @@ export default function RootLayout({
               {children}
             </main>
           </div>
+          <Footer />
           <BottomNav />
           <Drawers />
+          <WelcomeToast />
+          <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.03] scanlines" />
         </DayNightProvider>
       </body>
     </html>
