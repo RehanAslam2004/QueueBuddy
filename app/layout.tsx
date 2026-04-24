@@ -37,8 +37,20 @@ const pressStart2P = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "QueueBuddy | Real-Time Multiplayer Server Browser",
-  description: "Find players. Revive games. Play instantly. No login required.",
+  title: "QueueBuddy | Find Minecraft Servers & LFG Gaming Lobbies",
+  description: "QueueBuddy is the ultimate real-time multiplayer server browser. Find live Minecraft servers, recruit raid squads, and play instantly with no login required. Revive dying games today.",
+  keywords: ["Minecraft Server Browser", "LFG Gaming", "Multiplayer Lobbies", "Minecraft Community", "Gaming Squad Finder", "QueueBuddy"],
+  authors: [{ name: "Rehan Aslam", url: "https://github.com/RehanAslam2004" }],
+  openGraph: {
+    title: "QueueBuddy | Real-Time Gaming Lobbies",
+    description: "Find players. Revive games. Play instantly. Join the ultimate server browser for Minecraft and more.",
+    type: "website",
+    url: "https://queuebuddy.vercel.app",
+    images: [{ url: "/Queuebuddy.png" }],
+  },
+  verification: {
+    google: "Im1kzFOyGRtS9nF43eSC8hW8k6eo8MkJ4sZ3EEFyQNk",
+  },
   icons: {
     icon: [
       { url: '/Queuebuddy.png', sizes: '32x32', type: 'image/png' },

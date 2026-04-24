@@ -153,13 +153,7 @@ function LobbiesContent() {
       .limit(40);
       
     if (data) {
-      setQuickMessages(prev => {
-        if (prev.length !== data.length) return data as QuickMessage[];
-        if (prev.length > 0 && prev[prev.length - 1].id !== data[data.length - 1].id) {
-          return data as QuickMessage[];
-        }
-        return prev;
-      });
+      setQuickMessages(data as QuickMessage[]);
     }
   };
 
@@ -181,10 +175,16 @@ function LobbiesContent() {
   useEffect(() => {
     servers.forEach(s => {
       if (s.game.toLowerCase() === "minecraft" && detectConnectType(s.connect_info) === "ip" && mcStatus[s.id] === undefined) {
+        // skip local/internal IPs to avoid TypeErrors
+        if (s.connect_info.startsWith("127.") || s.connect_info === "localhost") {
+          setMcStatus(prev => ({...prev, [s.id]: { online: false, players: { online: 0, max: 0 } }}));
+          return;
+        }
+
         // mark as pending to avoid duplicate calls
         setMcStatus(prev => ({...prev, [s.id]: { pending: true }}));
         getMinecraftStatus(s.connect_info).then(data => {
-          setMcStatus(prev => ({...prev, [s.id]: data}));
+          setMcStatus(prev => ({...prev, [s.id]: data || { online: false }}));
         });
       }
     });
@@ -195,11 +195,6 @@ function LobbiesContent() {
     if (!activeServer) return;
     fetchMessages(activeServer.id);
     
-    // Polling fallback: fetch every 2.5s in case realtime replication drops
-    const pollInterval = setInterval(() => {
-      fetchMessages(activeServer.id);
-    }, 2500);
-
     const ch = supabase
       .channel(`msgs_${activeServer.id}`)
       .on("postgres_changes", {
@@ -208,6 +203,7 @@ function LobbiesContent() {
       }, (payload) => {
         const newMsg = payload.new as QuickMessage;
         setQuickMessages((prev) => {
+          // Prevent duplicates but allow new messages from any source
           if (prev.some((m) => m.id === newMsg.id)) return prev;
           return [...prev, newMsg];
         });
@@ -215,7 +211,6 @@ function LobbiesContent() {
       .subscribe();
       
     return () => { 
-      clearInterval(pollInterval);
       supabase.removeChannel(ch); 
     };
   }, [activeServer?.id]);
@@ -347,7 +342,8 @@ function LobbiesContent() {
     setQuickMessages((prev) => [...prev, optimisticMsg]);
     setChatInput("");
 
-    await supabase.from("quick_messages").insert({
+    // Insert to DB. Database requires manual ID generation for this table.
+    const { error } = await supabase.from("quick_messages").insert({
       id: msgId,
       server_id: activeServer.id,
       temp_user_id: tempUserId,
@@ -356,8 +352,20 @@ function LobbiesContent() {
       text,
     });
 
+    if (error) {
+      showToast("UPLINK FAILED!");
+      return;
+    }
+
     // Tracking stat
     incrementPlayerStat(tempUserId, "messages_sent");
+
+    // 10% chance for Loot Drop
+    if (Math.random() < 0.1) {
+      const { dropLoot } = await import("@/lib/rewards");
+      const item = await dropLoot(tempUserId, activeServer.id);
+      if (item) showToast(`LOOT SECURED: ${item.name}!`);
+    }
   };
 
   const handleSelectServer = async (server: Server) => {
@@ -365,8 +373,10 @@ function LobbiesContent() {
     const isJoined = server.players.some((p) => p.temp_user_id === tempUserId);
     if (!isJoined && server.players.length < server.max_players) {
       await handleJoinServer(server.id);
+      // fetchServers will be called inside handleJoinServer
+    } else {
+      setActiveServer(server);
     }
-    setActiveServer(server);
   };
 
   const copyToClipboard = (text: string, label = "Copied!") => {
@@ -809,10 +819,10 @@ function InLobbyPanel({
             {server.players.map((p) => (
               <div 
                 key={p.id} 
-                className={`voxel-border border-2 p-2 flex flex-col items-center text-center gap-1 relative overflow-hidden ${
+                className={`voxel-border border-4 p-3 flex flex-col items-center text-center gap-2 relative overflow-hidden transition-all hover:scale-[1.05] ${
                   p.temp_user_id === currentUserId 
-                  ? 'bg-primary/10 border-primary' 
-                  : 'bg-surface border-on-surface/5'
+                  ? 'bg-primary/20 border-primary' 
+                  : 'bg-surface-container-high border-black/10'
                 }`}
               >
                 <div className="relative">
@@ -821,11 +831,11 @@ function InLobbyPanel({
                     <span className="absolute -top-1 -right-1 material-symbols-outlined text-[10px] text-amber-500 bg-surface rounded-full">stars</span>
                   )}
                 </div>
-                <div className="min-w-0 w-full">
-                  <p className="font-accent text-[8px] font-black text-on-surface truncate uppercase leading-tight">
+                <div className="min-w-0 w-full space-y-1">
+                  <p className="font-accent text-[10px] font-black text-on-surface truncate uppercase leading-tight">
                     {p.username}
                   </p>
-                  <p className="text-[6px] font-bold text-primary uppercase tracking-tighter opacity-60">
+                  <p className="text-[7px] font-bold text-primary uppercase tracking-tighter opacity-80">
                     {p.temp_user_id === server.host_id ? 'COMMANDER' : (p.role || 'OPERATIVE')}
                   </p>
                 </div>
@@ -857,7 +867,7 @@ function InLobbyPanel({
 
         <div className="flex-1 flex flex-col min-h-0">
           {/* Chat history */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-on-surface/[0.02]">
+          <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar bg-white/50">
             {messages.length === 0 && (
               <div className="h-full flex flex-col items-center justify-center opacity-40 text-center space-y-4">
                 <span className="material-symbols-outlined text-5xl animate-pulse">satellite_alt</span>
@@ -866,11 +876,11 @@ function InLobbyPanel({
             )}
             {messages.map((m) => (
               <div key={m.id} className={`flex flex-col ${m.temp_user_id === currentUserId ? "items-end" : "items-start"}`}>
-                <div className="flex items-center gap-2 mb-1">
-                  <span className={`text-[8px] font-black uppercase ${m.temp_user_id === currentUserId ? "text-primary" : "text-on-surface-variant opacity-70"}`}>
+                <div className="flex items-center gap-2 mb-1.5">
+                  <span className={`text-[9px] font-black uppercase tracking-widest ${m.temp_user_id === currentUserId ? "text-primary" : "text-secondary"}`}>
                     {m.username}
                   </span>
-                  <span className="text-[6px] opacity-30 font-bold uppercase">
+                  <span className="text-[7px] opacity-40 font-black uppercase tracking-tighter">
                     {new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                   </span>
                 </div>

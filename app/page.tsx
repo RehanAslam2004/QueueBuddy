@@ -9,13 +9,13 @@ export default function Home() {
       <section className="flex flex-col gap-6 items-center justify-center text-center bg-surface p-8 border-4 border-outline-variant/20 shadow-[4px_4px_0_0_rgba(0,0,0,0.05)]">
         <div className="space-y-4">
           <h1 className="font-accent text-4xl lg:text-6xl font-black text-on-surface tracking-tighter leading-none uppercase">
-            QUEUE<span className="text-primary">BUDDY</span>
+            QUEUE<span className="text-primary">BUDDY</span>: THE ULTIMATE MULTIPLAYER SERVER BROWSER
           </h1>
           <p className="font-pixel text-base text-on-surface-variant font-bold uppercase tracking-tight">
-            Find players. Revive games. Play instantly.
+            Find Minecraft Servers. Build Squads. Play Instantly.
           </p>
           <div className="text-[10px] font-pixel font-bold text-on-surface-variant border-x-4 border-primary px-3 bg-primary/5 py-1 uppercase tracking-widest inline-block">
-            No login. No account. Just you and your squad.
+            Revolutionizing LFG Gaming with No Signups and Zero Friction.
           </div>
         </div>
       </section>
@@ -27,7 +27,7 @@ export default function Home() {
           className="group flex flex-col items-center justify-center gap-3 bg-primary text-on-primary p-6 border-b-4 border-on-primary-fixed-variant active:border-b-0 active:translate-y-1 transition-all hover:brightness-110"
         >
           <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
-          <span className="font-headline text-lg font-bold">Join Lobby</span>
+          <span className="font-headline text-lg font-bold">Find Gaming Lobbies</span>
           <span className="text-xs opacity-75 font-body text-center">Browse live servers and hop in instantly</span>
         </Link>
 
@@ -36,7 +36,7 @@ export default function Home() {
           className="group flex flex-col items-center justify-center gap-3 bg-secondary text-on-secondary p-6 border-b-4 border-on-secondary-fixed-variant active:border-b-0 active:translate-y-1 transition-all hover:brightness-110"
         >
           <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>swords</span>
-          <span className="font-headline text-lg font-bold">Plan Raid</span>
+          <span className="font-headline text-lg font-bold">LFG Squad Recruitment</span>
           <span className="text-xs opacity-75 font-body text-center">Schedule sessions and recruit your crew</span>
         </Link>
 
@@ -45,19 +45,19 @@ export default function Home() {
           className="group flex flex-col items-center justify-center gap-3 bg-tertiary text-on-tertiary p-6 border-b-4 border-on-tertiary-fixed-variant active:border-b-0 active:translate-y-1 transition-all hover:brightness-110"
         >
           <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>public</span>
-          <span className="font-headline text-lg font-bold">Revive World</span>
+          <span className="font-headline text-lg font-bold">Community Server Events</span>
           <span className="text-xs opacity-75 font-body text-center">Join community events for dying games</span>
         </Link>
       </section>
 
       {/* How It Works */}
       <section className="bg-surface-container-highest p-6 border-4 border-outline-variant/20 flex flex-col gap-6">
-        <h2 className="font-headline text-2xl font-bold text-on-surface">How It Works</h2>
+        <h2 className="font-headline text-2xl font-bold text-on-surface">How Our Gaming Browser Works</h2>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
-            { step: '01', icon: 'person', title: 'Auto Identity', desc: 'A Minecraft-style username is auto-generated for you. No signup required.' },
-            { step: '02', icon: 'dns', title: 'Browse or Host', desc: 'Find an active server to join, or create your own lobby in seconds.' },
-            { step: '03', icon: 'link', title: 'Connect & Play', desc: 'Copy the server info and connect directly in your game. That simple.' },
+            { step: '01', icon: 'person', title: 'Instant Identity', desc: 'A Minecraft-style operative tag is auto-generated for you. Zero data collection.' },
+            { step: '02', icon: 'dns', title: 'Browse Server List', desc: 'Find active Minecraft servers or custom lobbies in seconds with our node browser.' },
+            { step: '03', icon: 'link', title: 'Secure Deployment', desc: 'Grab the connection info and deploy directly into the action. Pure gaming.' },
           ].map(({ step, icon, title, desc }) => (
             <div key={step} className="flex gap-3">
               <div className="flex-shrink-0 w-10 h-10 bg-primary text-on-primary flex items-center justify-center font-headline font-black text-sm border-b-4 border-on-primary-fixed-variant">
@@ -66,7 +66,7 @@ export default function Home() {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="material-symbols-outlined text-primary text-sm">{icon}</span>
-                  <h3 className="font-headline font-bold text-sm text-on-surface">{title}</h3>
+                  <h3 className="font-headline font-bold text-sm text-on-surface uppercase">{title}</h3>
                 </div>
                 <p className="text-xs text-on-surface-variant font-body">{desc}</p>
               </div>

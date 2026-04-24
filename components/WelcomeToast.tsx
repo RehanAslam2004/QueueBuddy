@@ -23,39 +23,41 @@ export function WelcomeToast() {
 
   return (
     <div className="fixed bottom-24 right-4 z-[100] max-w-sm animate-slide-up">
-      <div className="bg-primary text-on-primary p-6 voxel-border border-4 border-on-surface shadow-[8px_8px_0_0_rgba(0,0,0,0.2)] relative">
+      <div className="bg-surface-container-highest text-on-surface p-6 voxel-border border-4 border-black shadow-[12px_12px_0_0_rgba(0,0,0,0.4)] relative">
         <button 
           onClick={() => setShow(false)}
-          className="absolute top-2 right-2 text-on-primary/50 hover:text-on-primary transition-colors"
+          className="absolute top-2 right-2 text-on-surface/40 hover:text-on-surface transition-colors"
         >
-          <span className="material-symbols-outlined text-sm">close</span>
+          <span className="material-symbols-outlined text-lg font-black">close</span>
         </button>
         
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-3">
-            <span className="material-symbols-outlined text-3xl animate-float">celebration</span>
-            <h3 className="font-accent text-xl uppercase tracking-tighter leading-none">Welcome, Player!</h3>
+        <div className="flex flex-col gap-5">
+          <div className="flex items-center gap-4">
+            <span className="material-symbols-outlined text-4xl text-primary animate-float drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]">celebration</span>
+            <h3 className="font-accent text-2xl uppercase tracking-tighter leading-none text-on-surface">Welcome, Player!</h3>
           </div>
           
-          <p className="font-pixel text-[11px] leading-relaxed font-bold uppercase tracking-tight">
-            Greetings <span className="text-primary-fixed">{username}</span>. You've just deployed to QueueBuddy Beta. 
-          </p>
+          <div className="space-y-3">
+            <p className="font-pixel text-[11px] leading-relaxed font-bold uppercase tracking-tight text-on-surface">
+              Greetings <span className="text-primary bg-primary/10 px-1">{username}</span>. You've just deployed to QueueBuddy Beta. 
+            </p>
 
-          <p className="font-pixel text-[9px] leading-relaxed opacity-80 font-bold uppercase tracking-tighter">
-            We're building a barrier-free coordination hub for tactical gaming. Want to help us grow? Contribute on GitHub or reach out via email!
-          </p>
+            <p className="font-pixel text-[9px] leading-relaxed opacity-70 font-bold uppercase tracking-tighter text-on-surface">
+              We're building a barrier-free coordination hub for tactical gaming. Want to help us grow? Contribute on GitHub or reach out via email!
+            </p>
+          </div>
 
-          <div className="flex gap-2">
+          <div className="flex gap-3 pt-2">
             <button 
               onClick={() => setShow(false)}
-              className="mc-button mc-button-primary !px-4 !py-2 !text-[9px] flex-1"
+              className="mc-button mc-button-primary !px-6 !py-3 !text-[10px] flex-1 font-black shadow-[0_4px_0_0_#1a5a00]"
             >
               Let's Play
             </button>
             <a 
               href="https://github.com/RehanAslam2004" 
               target="_blank"
-              className="mc-button !bg-surface !text-on-surface !px-4 !py-2 !text-[9px] flex items-center justify-center"
+              className="mc-button !bg-surface-container-low !text-on-surface !px-6 !py-3 !text-[10px] flex items-center justify-center font-black"
             >
               Contribute
             </a>
