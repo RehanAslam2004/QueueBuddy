@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://queuebuddy.netlify.app/sitemap.xml
+Sitemap: https://queue-buddy.netlify.app/sitemap.xml
