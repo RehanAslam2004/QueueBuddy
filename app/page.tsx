@@ -6,15 +6,22 @@ export default function Home() {
   return (
     <div className="max-w-4xl mx-auto flex flex-col gap-8">
       {/* Hero Section */}
-      <section className="flex flex-col gap-6 items-center justify-center text-center bg-surface p-8 border-4 border-outline-variant/20 shadow-[4px_4px_0_0_rgba(0,0,0,0.05)]">
-        <div className="space-y-4">
-          <h1 className="font-accent text-4xl lg:text-6xl font-black text-on-surface tracking-tighter leading-none uppercase">
-            QUEUE<span className="text-primary">BUDDY</span>: THE ULTIMATE MULTIPLAYER SERVER BROWSER
-          </h1>
-          <p className="font-pixel text-base text-on-surface-variant font-bold uppercase tracking-tight">
-            Find Minecraft Servers. Build Squads. Play Instantly.
+      <section className="flex flex-col gap-6 items-center justify-center text-center bg-surface p-10 border-4 border-outline-variant/20 shadow-[4px_4px_0_0_rgba(0,0,0,0.05)]">
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <h1 className="font-accent text-5xl lg:text-7xl font-black text-on-surface tracking-tighter leading-none uppercase">
+              QUEUE<span className="text-primary">BUDDY</span>
+            </h1>
+            <h2 className="font-headline text-xl lg:text-2xl font-bold text-on-surface tracking-tight uppercase opacity-90">
+              The Ultimate Multiplayer Server Browser
+            </h2>
+          </div>
+          
+          <p className="font-pixel text-base text-primary font-bold uppercase tracking-tight">
+            Find Tactical Servers. Build Squads. Deploy Instantly.
           </p>
-          <div className="text-[10px] font-pixel font-bold text-on-surface-variant border-x-4 border-primary px-3 bg-primary/5 py-1 uppercase tracking-widest inline-block">
+          
+          <div className="text-[10px] font-pixel font-bold text-on-surface-variant border-x-4 border-primary px-4 bg-primary/5 py-1.5 uppercase tracking-widest inline-block">
             Revolutionizing LFG Gaming with No Signups and Zero Friction.
           </div>
         </div>
@@ -26,27 +33,27 @@ export default function Home() {
           href="/lobbies"
           className="group flex flex-col items-center justify-center gap-3 bg-primary text-on-primary p-6 border-b-4 border-on-primary-fixed-variant active:border-b-0 active:translate-y-1 transition-all hover:brightness-110"
         >
-          <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>groups</span>
-          <span className="font-headline text-lg font-bold">Find Gaming Lobbies</span>
-          <span className="text-xs opacity-75 font-body text-center">Browse live servers and hop in instantly</span>
+          <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>dns</span>
+          <span className="font-headline text-lg font-bold uppercase tracking-tighter">Lobby Browser</span>
+          <span className="text-[10px] opacity-75 font-pixel font-bold text-center uppercase">Scan for active nodes and deploy</span>
         </Link>
 
         <Link
           href="/raids"
           className="group flex flex-col items-center justify-center gap-3 bg-secondary text-on-secondary p-6 border-b-4 border-on-secondary-fixed-variant active:border-b-0 active:translate-y-1 transition-all hover:brightness-110"
         >
-          <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>swords</span>
-          <span className="font-headline text-lg font-bold">LFG Squad Recruitment</span>
-          <span className="text-xs opacity-75 font-body text-center">Schedule sessions and recruit your crew</span>
+          <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>military_tech</span>
+          <span className="font-headline text-lg font-bold uppercase tracking-tighter">Squad Recruiter</span>
+          <span className="text-[10px] opacity-75 font-pixel font-bold text-center uppercase">Assemble elite squads for any mission</span>
         </Link>
 
         <Link
           href="/events"
           className="group flex flex-col items-center justify-center gap-3 bg-tertiary text-on-tertiary p-6 border-b-4 border-on-tertiary-fixed-variant active:border-b-0 active:translate-y-1 transition-all hover:brightness-110"
         >
-          <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>public</span>
-          <span className="font-headline text-lg font-bold">Community Server Events</span>
-          <span className="text-xs opacity-75 font-body text-center">Join community events for dying games</span>
+          <span className="material-symbols-outlined text-4xl" style={{ fontVariationSettings: "'FILL' 1" }}>hub</span>
+          <span className="font-headline text-lg font-bold uppercase tracking-tighter">Event Intel</span>
+          <span className="text-[10px] opacity-75 font-pixel font-bold text-center uppercase">Intercept global community operations</span>
         </Link>
       </section>
 

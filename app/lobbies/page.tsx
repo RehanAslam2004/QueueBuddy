@@ -109,6 +109,8 @@ function LobbiesContent() {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
   const [newGame, setNewGame] = useState("Minecraft");
+  const [gameSearch, setGameSearch] = useState("Minecraft");
+  const [showGameResults, setShowGameResults] = useState(false);
   const [maxPlayers, setMaxPlayers] = useState(4);
   const [connectInfo, setConnectInfo] = useState("");
   const [tags, setTags] = useState("");
@@ -609,18 +611,58 @@ function LobbiesContent() {
                 <label className="text-xs font-bold uppercase tracking-widest text-on-surface-variant flex items-center gap-2">
                   <span className="w-1.5 h-1.5 bg-primary" /> GAME PROTOCOL
                 </label>
-                <select
-                  value={newGame}
-                  onChange={(e) => setNewGame(e.target.value)}
-                  className="mc-input w-full p-4 text-base"
-                >
-                  {Object.entries(GAMES).map(([cat, games]) => (
-                    <optgroup key={cat} label={cat} className="font-pixel">
-                      {games.map((g) => <option key={g.name} value={g.name} className="font-pixel">{g.name}</option>)}
-                    </optgroup>
-                  ))}
-                  <option value="Custom / Other">Custom / Other</option>
-                </select>
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="SEARCH GAME PROTOCOL (e.g. MINECRAFT, VALORANT...)"
+                    value={gameSearch}
+                    onFocus={() => {
+                      if (!gameSearch && newGame) setGameSearch(newGame);
+                      setShowGameResults(true);
+                    }}
+                    onChange={(e) => {
+                      setGameSearch(e.target.value);
+                      setShowGameResults(true);
+                    }}
+                    className="mc-input w-full p-4 text-base mb-2"
+                  />
+                  
+                  {showGameResults && (
+                    <div className="absolute top-full left-0 right-0 z-[110] bg-surface border-4 border-on-surface shadow-2xl max-h-60 overflow-y-auto voxel-border custom-scrollbar">
+                      {Object.values(GAMES).flat()
+                        .filter(g => g.name.toLowerCase().includes(gameSearch.toLowerCase()))
+                        .map(g => (
+                          <button
+                            key={g.name}
+                            type="button"
+                            className="w-full text-left p-3 hover:bg-primary hover:text-on-primary font-pixel text-xs border-b border-on-surface/5 flex items-center gap-3"
+                            onClick={() => {
+                              setNewGame(g.name);
+                              setGameSearch(g.name);
+                              setShowGameResults(false);
+                              play("click");
+                            }}
+                          >
+                            <span className="material-symbols-outlined text-sm">{g.icon}</span>
+                            {g.name.toUpperCase()}
+                          </button>
+                        ))
+                      }
+                      <button
+                        type="button"
+                        className="w-full text-left p-3 hover:bg-secondary hover:text-on-secondary font-pixel text-xs italic opacity-80 flex items-center gap-3"
+                        onClick={() => {
+                          setNewGame(gameSearch || "Custom Node");
+                          setShowGameResults(false);
+                        }}
+                      >
+                        <span className="material-symbols-outlined text-sm">add_circle</span>
+                        USE CUSTOM: "{gameSearch.toUpperCase() || '...'}"
+                      </button>
+                    </div>
+                  )}
+                </div>
+
                 <div className="flex items-center gap-4 p-3 bg-on-surface/5 voxel-border border-4">
                   <img src={getThumb(newGame)} alt={newGame} className="w-16 h-10 object-cover grayscale" />
                   <span className="text-xs font-bold text-on-surface uppercase">{newGame} PROTOCOL ACTIVE</span>
