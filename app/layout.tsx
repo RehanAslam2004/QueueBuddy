@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     title: "QueueBuddy | Real-Time Gaming Lobbies",
     description: "Find players. Revive games. Play instantly. Join the ultimate server browser for Minecraft and more.",
     type: "website",
-    url: "https://queuebuddy.vercel.app",
+    url: "https://queuebuddy.netlify.app",
     images: [{ url: "/Queuebuddy.png" }],
   },
   verification: {

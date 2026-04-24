@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://queuebuddy.vercel.app/sitemap.xml
+Sitemap: https://queuebuddy.netlify.app/sitemap.xml
